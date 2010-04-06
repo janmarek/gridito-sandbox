@@ -20,7 +20,7 @@ var gridito = {
 	confirmationQuestion: function (event, question) {
 		// thx to Panda
 		var e = $.Event(event);
-		
+
 		if (!confirm(question)) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
@@ -30,7 +30,7 @@ var gridito = {
 	initializeGrid: function (grid) {
 		// sorting icons
 		function initSortingIcons(normalClass, hoverClass) {
-			grid.find("table.grid-table th .sorting a span." + normalClass).hover(function () {
+			grid.find("table.gridito-table th .sorting a span." + normalClass).hover(function () {
 				$(this).removeClass(normalClass).addClass(hoverClass);
 			}, function () {
 				$(this).removeClass(hoverClass).addClass(normalClass);
@@ -42,7 +42,7 @@ var gridito = {
 		initSortingIcons("ui-icon-triangle-1-s", "ui-icon-carat-2-n-s");
 
 		// buttons
-		grid.find("table.grid-table td.grid-actioncell a, div.grid-toolbar a").each(function () {
+		grid.find("table.gridito-table td.gridito-actioncell a, div.gridito-toolbar a").each(function () {
 			var options = {};
 			var el = $(this);
 			var icon = el.attr("icon");
@@ -51,14 +51,14 @@ var gridito = {
 		});
 
 		// tr hover
-		grid.find("table.grid-table tbody tr").hover(function () {
+		grid.find("table.gridito-table tbody tr").hover(function () {
 			$(this).addClass("ui-state-hover");
 		}, function () {
 			$(this).removeClass("ui-state-hover");
 		});
 
 		// paginator buttons
-		grid.find("div.grid-paginator a").each(function () {
+		grid.find("div.gridito-paginator a").each(function () {
 			var el = $(this);
 
 			el.button({
@@ -70,5 +70,5 @@ var gridito = {
 
 // init
 $("div.gridito").livequery(function () {
-	grid.initializeGrid($(this));
+	gridito.initializeGrid($(this));
 });
