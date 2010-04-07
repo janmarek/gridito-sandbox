@@ -13,8 +13,8 @@
 
 {else}
 
-<div class="gridito-toolbar" n:if="!$control['toolbar']->isEmpty()">
-	{widget toolbar}
+<div class="gridito-toolbar" n:if="$control->hasToolbar()">
+	{foreach $control["toolbar"]->getComponents() as $button}{widget $button}{/foreach}
 </div>
 
 <table class="gridito-table ui-widget ui-widget-content">
@@ -23,7 +23,7 @@
 			<th class="ui-widget-header" n:foreach="$control['columns']->getComponents() as $column">
 				{? $column->renderHeaderCell()}
 			</th>
-			<th class="ui-widget-header" n:if="!$control['actions']->isEmpty()"></th>
+			<th class="ui-widget-header" n:if="$control->hasActions()"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,8 +31,8 @@
 			<td class="gridito-cell" n:foreach="$control['columns']->getComponents() as $column">
 				{? $column->renderCell($item)}
 			</td>
-			<td class="gridito-actioncell" n:if="!$control['actions']->isEmpty()">
-				{widget actions $item}
+			<td class="gridito-actioncell" n:if="$control->hasActions()">
+				{foreach $control["actions"]->getComponents() as $button}{widget $button $item}{/foreach}
 			</td>
 		</tr>
 	</tbody>

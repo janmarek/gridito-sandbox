@@ -55,16 +55,16 @@ b) Ukázkový presenter:
 			$grid->addColumn("nice", "Je krásná")->setSortable(true);
 			$grid->addColumn("created", "Vytvořeno")->setSortable(true);
 
-			$grid["toolbar"]->addWindowButton("Přidat", function () use ($presenter) {
+			$grid->addToolbarWindowButton("Přidat", function () use ($presenter) {
 				$presenter["addForm"]->render();
 			}, "plusthick");
 
-			$grid["actions"]->addWindowButton("Upravit", function ($record) use ($presenter) {
+			$grid->addWindowButton("Upravit", function ($record) use ($presenter) {
 				$presenter["editForm"]->setDefaults($record);
 				$presenter["editForm"]->render();
 			}, "pencil");
 
-			$grid["actions"]->addButton("Smazat", function ($record) use ($grid) {
+			$grid->addButton("Smazat", function ($record) use ($grid) {
 				$record->delete();
 				$grid->flashMessage("Barva byla smazána.");
 			}, "closethick")->setConfirmationQuestion("Opravdu smazat barvu?");

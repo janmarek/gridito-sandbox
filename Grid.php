@@ -38,6 +38,12 @@ class Grid extends Control {
 	/** @var string */
 	private $ajaxClass = "ajax";
 
+	/** @var int */
+	private $toolbarButtonId = 0;
+
+	/** @var int */
+	private $actionButtonId = 0;
+
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="constructor">
@@ -45,6 +51,9 @@ class Grid extends Control {
 	public function __construct() {
 		// intentionally without parameters
 		parent::__construct();
+		$this->addComponent(new ComponentContainer, "toolbar");
+		$this->addComponent(new ComponentContainer, "actions");
+		$this->addComponent(new ComponentContainer, "columns");
 
 	}
 
@@ -163,6 +172,24 @@ class Grid extends Control {
 		return $session->securityToken;
 	}
 
+
+	/**
+	 * Has toolbar
+	 * @return bool
+	 */
+	public function hasToolbar() {
+		return count($this["toolbar"]->getComponents()) > 0;
+	}
+
+
+	/**
+	 * Has actions
+	 * @return bool
+	 */
+	public function hasActions() {
+		return count($this["actions"]->getComponents()) > 0;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="signals & loadState">
@@ -222,29 +249,58 @@ class Grid extends Control {
 
 
 	/**
-	 * Row toolbar factory
-	 * @return Toolbar
+	 * Add action button
+	 * @param string $label button name
+	 * @param callback $handler
+	 * @param string $icon jQuery UI icon
+	 * @return Button
 	 */
-	protected function createComponentActions() {
-		return new Toolbar;
+	public function addButton($label, $handler, $icon = null) {
+		$button = $this->createButton("\Gridito\Button", $label, $handler, $icon);
+		$this["actions"]->addComponent($button, ++$this->actionButtonId);
+		return $button;
 	}
 
 
 	/**
-	 * Top toolbar factory
-	 * @return Toolbar
+	 * Add action window button
+	 * @param string $label button name
+	 * @param callback $handler
+	 * @param string $icon jQuery UI icon
+	 * @return WindowButton
 	 */
-	protected function createComponentToolbar() {
-		return new Toolbar;
+	public function addWindowButton($label, $handler, $icon = null) {
+		$button = $this->createButton("\Gridito\WindowButton", $label, $handler, $icon);
+		$this["actions"]->addComponent($button, ++$this->actionButtonId);
+		return $button;
 	}
 
 
 	/**
-	 * Column container factory
-	 * @return ComponentContainer
+	 * Add action button to toolbar
+	 * @param string $label button name
+	 * @param callback $handler
+	 * @param string $icon jQuery UI icon
+	 * @return Button
 	 */
-	protected function createComponentColumns() {
-		return new ComponentContainer;
+	public function addToolbarButton($label, $handler, $icon = null) {
+		$button = $this->createButton("\Gridito\Button", $label, $handler, $icon);
+		$this["toolbar"]->addComponent($button, ++$this->toolbarButtonId);
+		return $button;
+	}
+
+
+	/**
+	 * Add window button to toolbar
+	 * @param string $label button name
+	 * @param callback $handler
+	 * @param string $icon jQuery UI icon
+	 * @return WindowButton
+	 */
+	public function addToolbarWindowButton($label, $handler, $icon = null) {
+		$button = $this->createButton("\Gridito\WindowButton", $label, $handler, $icon);
+		$this["toolbar"]->addComponent($button, ++$this->toolbarButtonId);
+		return $button;
 	}
 
 	// </editor-fold>
@@ -269,7 +325,24 @@ class Grid extends Control {
 		$paginator->setPage($page);
 		$this->model->setLimit($paginator->getOffset(), $paginator->getLength());
 	}
-	
+
+
+	/**
+	 * Create button
+	 * @param string $class button class name
+	 * @param string $label
+	 * @param callback $handler
+	 * @param string $icon
+	 * @return BaseButton
+	 */
+	private function createButton($class, $label, $handler, $icon = null) {
+		$button = new $class;
+		$button->setLabel($label);
+		$button->setHandler($handler);
+		if ($icon) $button->setIcon($icon);
+		return $button;
+	}
+
 	// </editor-fold>
 	
 }

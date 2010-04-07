@@ -5,7 +5,11 @@
  * @license MIT
  */
 var gridito = {
-	loadWindow: function (href, title) {
+	loadWindow: function (href, title, event) {
+		var e = jQuery.Event(event);
+		e.stopImmediatePropagation();
+		e.preventDefault();
+
 		var el = jQuery('<div></div>').attr("title", title).appendTo('body');
 		el.load(href, function () {
 			el.dialog({
@@ -19,8 +23,8 @@ var gridito = {
 
 	confirmationQuestion: function (event, question) {
 		// thx to Panda
-		var e = $.Event(event);
-
+		var e = jQuery.Event(event);
+		
 		if (!confirm(question)) {
 			e.stopImmediatePropagation();
 			e.preventDefault();
@@ -31,9 +35,9 @@ var gridito = {
 		// sorting icons
 		function initSortingIcons(normalClass, hoverClass) {
 			grid.find("table.gridito-table th .sorting a span." + normalClass).hover(function () {
-				$(this).removeClass(normalClass).addClass(hoverClass);
+				jQuery(this).removeClass(normalClass).addClass(hoverClass);
 			}, function () {
-				$(this).removeClass(hoverClass).addClass(normalClass);
+				jQuery(this).removeClass(hoverClass).addClass(normalClass);
 			});
 		};
 
@@ -44,7 +48,7 @@ var gridito = {
 		// buttons
 		grid.find("table.gridito-table td.gridito-actioncell a, div.gridito-toolbar a").each(function () {
 			var options = {};
-			var el = $(this);
+			var el = jQuery(this);
 			var icon = el.attr("icon");
 			if (icon) options.icons = {primary: icon};
 			el.button(options);
@@ -52,14 +56,14 @@ var gridito = {
 
 		// tr hover
 		grid.find("table.gridito-table tbody tr").hover(function () {
-			$(this).addClass("ui-state-hover");
+			jQuery(this).addClass("ui-state-hover");
 		}, function () {
-			$(this).removeClass("ui-state-hover");
+			jQuery(this).removeClass("ui-state-hover");
 		});
 
 		// paginator buttons
 		grid.find("div.gridito-paginator a").each(function () {
-			var el = $(this);
+			var el = jQuery(this);
 
 			el.button({
 				disabled: el.hasClass("disabled")
@@ -69,6 +73,6 @@ var gridito = {
 };
 
 // init
-$("div.gridito").livequery(function () {
-	gridito.initializeGrid($(this));
+jQuery("div.gridito").livequery(function () {
+	gridito.initializeGrid(jQuery(this));
 });

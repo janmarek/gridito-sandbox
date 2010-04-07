@@ -37,7 +37,7 @@ class WindowButton extends BaseButton {
 	 */
 	protected function createButton($row = null) {
 		$el = parent::createButton($row);
-		$el->onClick = "gridito.loadWindow(this.href, " . json_encode($this->getLabel()) . "); return false";
+		$el->onClick = "gridito.loadWindow(this.href, " . json_encode($this->getLabel()) . ", event)";
 		return $el;
 	}
 
