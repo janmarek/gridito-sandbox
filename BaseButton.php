@@ -24,6 +24,9 @@ abstract class BaseButton extends PresenterComponent {
 
 	/** @var string */
 	private $icon;
+
+	/** @var bool|callback */
+	private $visible = true;
 	
 	// </editor-fold>
 
@@ -49,24 +52,80 @@ abstract class BaseButton extends PresenterComponent {
 	}
 
 
-
+	/**
+	 * Get handler
+	 * @return callback
+	 */
 	public function getHandler() {
 		return $this->handler;
 	}
 
-	public function setHandler($cb) {
-		$this->handler = $cb;
+
+	/**
+	 * Set handler
+	 * @param callback $handler
+	 * @return BaseButton
+	 */
+	public function setHandler($handler) {
+		$this->handler = $handler;
+		return $this;
 	}
 
+
+	/**
+	 * Get jQuery UI icon
+	 * @return string
+	 */
 	public function getIcon() {
 		return $this->icon;
 	}
 
+
+	/**
+	 * Set jQuery UI icon
+	 * @param string $icon
+	 * @return BaseButton
+	 */
 	public function setIcon($icon) {
 		$this->icon = $icon;
 		return $this;
 	}
 
+
+	/**
+	 * Get visible
+	 * @return bool|callback
+	 */
+	public function getVisible() {
+		return $this->visible;
+	}
+	
+
+	/**
+	 * Is button visible
+	 * @param mixed $row
+	 * @return bool
+	 */
+	public function isVisible($row = null) {
+		return is_bool($this->visible) ? $this->visible : call_user_func($this->visible, $row);
+	}
+
+
+	/**
+	 * Set visible
+	 * @param bool|callback $visible
+	 * @return BaseButton
+	 */
+	public function setVisible($visible) {
+		if (!is_bool($visible) && !\is_callable($visible)) {
+			throw new \InvalidArgumentException("Argument should be callable or boolean.");
+		}
+		
+		$this->visible = $visible;
+		return $this;
+	}
+
+	
 	/**
 	 * @return Grid
 	 */
@@ -78,6 +137,11 @@ abstract class BaseButton extends PresenterComponent {
 
 	// <editor-fold defaultstate="collapsed" desc="signals">
 
+	/**
+	 * Handle click signal
+	 * @param string $token security token
+	 * @param mixed $pk
+	 */
 	public function handleClick($token, $pk = null) {
 		$grid = $this->getGrid();
 
@@ -91,7 +155,12 @@ abstract class BaseButton extends PresenterComponent {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="rendering">
-	
+
+	/**
+	 * Get button link
+	 * @param mixed $row
+	 * @return string
+	 */
 	protected function getButtonLink($row) {
 		$grid = $this->getGrid();
 
@@ -104,6 +173,12 @@ abstract class BaseButton extends PresenterComponent {
 		return $this->link("click!", $params);
 	}
 
+
+	/**
+	 * Create button element
+	 * @param mixed $row
+	 * @return Html
+	 */
 	protected function createButton($row = null) {
 		$el = Html::el("a")
 			->href($this->getButtonLink($row))
@@ -116,8 +191,15 @@ abstract class BaseButton extends PresenterComponent {
 		return $el;
 	}
 
-	public function render($row = null) {
-		echo $this->createButton($row);
+
+	/**
+	 * Render button
+	 * @param mixed $row
+	 */
+	public function render($row = null) {		
+		if ($this->isVisible($row)) {
+			echo $this->createButton($row);
+		}
 	}
 
 	// </editor-fold>
