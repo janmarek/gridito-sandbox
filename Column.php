@@ -172,7 +172,7 @@ class Column extends Control {
 			
 		// date
 		} elseif ($value instanceof \DateTime) {
-			echo $value->format($this->dateTimeFormat);
+			echo $value->format($column->dateTimeFormat);
 
 		// other
 		} else {
