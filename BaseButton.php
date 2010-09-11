@@ -27,6 +27,9 @@ abstract class BaseButton extends PresenterComponent {
 
 	/** @var bool|callback */
 	private $visible = true;
+
+	/** @var string|callback */
+	private $link = null;
 	
 	// </editor-fold>
 
@@ -117,7 +120,7 @@ abstract class BaseButton extends PresenterComponent {
 	 * @return BaseButton
 	 */
 	public function setVisible($visible) {
-		if (!is_bool($visible) && !\is_callable($visible)) {
+		if (!is_bool($visible) && !is_callable($visible)) {
 			throw new \InvalidArgumentException("Argument should be callable or boolean.");
 		}
 		
@@ -131,6 +134,30 @@ abstract class BaseButton extends PresenterComponent {
 	 */
 	public function getGrid() {
 		return $this->getParent()->getParent();
+	}
+
+
+
+	/**
+	 * Get link URL
+	 * @return string|callback
+	 */
+	public function getLink()
+	{
+		return $this->link;
+	}
+
+
+
+	/**
+	 * Set link URL
+	 * @param string|callback link
+	 * @return BaseButton
+	 */
+	public function setLink($link)
+	{
+		$this->link = $link;
+		return $this;
 	}
 
 	// </editor-fold>
@@ -162,6 +189,14 @@ abstract class BaseButton extends PresenterComponent {
 	 * @return string
 	 */
 	protected function getButtonLink($row) {
+		if ($this->link) {
+			if (is_callable($this->link)) {
+				return call_user_func($this->link, $row);
+			}
+
+			return $this->link;
+		}
+
 		$grid = $this->getGrid();
 
 		$params["token"] = $grid->getSecurityToken();
