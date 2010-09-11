@@ -8,8 +8,8 @@ namespace Gridito;
  * @author Jan Marek
  * @license MIT
  */
-interface IModel extends \IteratorAggregate, \Countable {
-
+interface IModel extends \IteratorAggregate, \Countable
+{
 	public function setupGrid(Grid $grid);
 
 	public function processActionParam($param);

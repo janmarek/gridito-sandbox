@@ -2,16 +2,14 @@
 
 namespace Gridito;
 
-use Nette\Application\Control;
-
 /**
  * Grid column
  *
  * @author Jan Marek
  * @license MIT
  */
-class Column extends Control {
-
+class Column extends \Nette\Application\Control
+{
 	// <editor-fold defaultstate="collapsed" desc="variables">
 
 	/** @var string */
@@ -40,40 +38,48 @@ class Column extends Control {
 	 * Get label
 	 * @return string
 	 */
-	public function getLabel() {
+	public function getLabel()
+	{
 		return $this->label;
 	}
 
 
+
 	/**
 	 * Set label
-	 * @param string $label
+	 * @param string label
 	 * @return Column
 	 */
-	public function setLabel($label) {
+	public function setLabel($label)
+	{
 		$this->label = $label;
 		return $this;
 	}
+
 
 
 	/**
 	 * Get cell renderer
 	 * @return callback
 	 */
-	public function getCellRenderer() {
+	public function getCellRenderer()
+	{
 		return $this->cellRenderer;
 	}
 
 
+
 	/**
 	 * Set cell renderer
-	 * @param callback $cellRenderer
+	 * @param callback cell renderer
 	 * @return Column
 	 */
-	public function setCellRenderer($cellRenderer) {
+	public function setCellRenderer($cellRenderer)
+	{
 		$this->cellRenderer = $cellRenderer;
 		return $this;
 	}
+
 
 
 	/**
@@ -85,15 +91,17 @@ class Column extends Control {
 	}
 
 
+
 	/**
 	 * Set sortable
-	 * @param bool $sortable
+	 * @param bool sortable
 	 * @return Column
 	 */
 	public function setSortable($sortable) {
 		$this->sortable = $sortable;
 		return $this;
 	}
+
 
 
 	/**
@@ -105,15 +113,18 @@ class Column extends Control {
 	}
 
 
+
 	/**
 	 * Set date/time format
-	 * @param string $dateTimeFormat
+	 * @param string datetime format
 	 * @return Column
 	 */
 	public function setDateTimeFormat($dateTimeFormat) {
 		$this->dateTimeFormat = $dateTimeFormat;
 		return $this;
 	}
+
+
 
 	/**
 	 * Get grid
@@ -129,7 +140,7 @@ class Column extends Control {
 
 	/**
 	 * Handle sort
-	 * @param string $type
+	 * @param string type
 	 */
 	public function handleSort($type) {
 		$this->sorting = $type;
@@ -141,6 +152,7 @@ class Column extends Control {
 			$this->redirect("this");
 		}
 	}
+
 
 
 	/**
@@ -165,7 +177,7 @@ class Column extends Control {
 		$name = $column->getName();
 		$value = $record->$name;
 
-		// true/false
+		// boolean
 		if (is_bool($value)) {
 			$icon = $value ? "check" : "closethick";
 			echo '<span class="ui-icon ui-icon-' . $icon . '"></span>';
@@ -181,9 +193,10 @@ class Column extends Control {
 	}
 
 
+
 	/**
 	 * Render cell
-	 * @param mixed $record
+	 * @param mixed record
 	 */
 	public function renderCell($record) {
 		call_user_func($this->cellRenderer ?: array($this, "defaultCellRenderer"), $record, $this);
@@ -191,6 +204,7 @@ class Column extends Control {
 	}
 
 
+	
 	/**
 	 * Render header cell
 	 */
