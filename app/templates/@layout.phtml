@@ -14,8 +14,8 @@
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" type="text/css">
 
 	<!-- Gridito -->
-	<link rel="stylesheet" href="{$basePath}/css/datagrid.css" type="text/css">	
-	<script type="text/javascript" src="{$basePath}/js/datagrid.js"></script>
+	<link rel="stylesheet" href="{$basePath}/css/gridito.css" type="text/css">
+	<script type="text/javascript" src="{$basePath}/js/gridito.js"></script>
 
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
 </head>
@@ -23,6 +23,6 @@
 <body>
 	{foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
 
-	{include #content}
+	@{include #content}
 </body>
 </html>
