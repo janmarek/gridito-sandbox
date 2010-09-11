@@ -18,7 +18,7 @@ class Column extends Control {
 	private $label;
 
 	/** @var callback */
-	private $cellRenderer = array(__CLASS__, "defaultCellRenderer");
+	private $cellRenderer = null;
 
 	/** @var bool */
 	private $sortable = false;
@@ -30,7 +30,7 @@ class Column extends Control {
 	public $sorting = null;
 
 	/** @var string */
-	private $dateTimeFormat = "j.n.Y h:i";
+	private $dateTimeFormat = "j.n.Y G:i";
 
 	// </editor-fold>
 
@@ -161,7 +161,7 @@ class Column extends Control {
 	 * @param mixed $record
 	 * @param Column $column
 	 */
-	public static function defaultCellRenderer($record, $column) {
+	public function defaultCellRenderer($record, $column) {
 		$name = $column->getName();
 		$value = $record->$name;
 
@@ -172,7 +172,7 @@ class Column extends Control {
 			
 		// date
 		} elseif ($value instanceof \DateTime) {
-			echo $value->format($column->dateTimeFormat);
+			echo $value->format($this->dateTimeFormat);
 
 		// other
 		} else {
@@ -186,7 +186,7 @@ class Column extends Control {
 	 * @param mixed $record
 	 */
 	public function renderCell($record) {
-		call_user_func($this->cellRenderer, $record, $this);
+		call_user_func($this->cellRenderer ?: array($this, "defaultCellRenderer"), $record, $this);
 
 	}
 
