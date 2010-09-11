@@ -24,13 +24,25 @@ class Grid extends \Nette\Application\Control
 	private $paginator;
 
 	/** @var int */
-	protected $defaultItemsPerPage = 20;
+	private $defaultItemsPerPage = 20;
 
 	/**
 	 * @var int
 	 * @persistent
 	 */
 	public $page = 1;
+
+	/**
+	 * @var string
+	 * @persistent
+	 */
+	public $sortColumn = null;
+
+	/**
+	 * @var string
+	 * @persistent
+	 */
+	public $sortType = null;
 
 	/** @var string */
 	private $ajaxClass = "ajax";
@@ -45,13 +57,16 @@ class Grid extends \Nette\Application\Control
 
 	// <editor-fold defaultstate="collapsed" desc="constructor">
 
-	public function __construct()
+	public function __construct(\Nette\IComponentContainer $parent = null, $name = null)
 	{
-		// intentionally without parameters
-		parent::__construct();
+		parent::__construct($parent, $name);
+
 		$this->addComponent(new ComponentContainer, "toolbar");
 		$this->addComponent(new ComponentContainer, "actions");
 		$this->addComponent(new ComponentContainer, "columns");
+		
+		$this->paginator = new Paginator;
+		$this->paginator->setItemsPerPage($this->defaultItemsPerPage);
 
 	}
 
@@ -164,11 +179,6 @@ class Grid extends \Nette\Application\Control
 	 */
 	public function getPaginator()
 	{
-		if (!$this->paginator) {
-			$this->paginator = new Paginator;
-			$this->paginator->setItemsPerPage($this->defaultItemsPerPage);
-		}
-
 		return $this->paginator;
 	}
 
@@ -213,7 +223,7 @@ class Grid extends \Nette\Application\Control
 
 	// </editor-fold>
 
-	// <editor-fold defaultstate="collapsed" desc="signals & loadState">
+	// <editor-fold defaultstate="collapsed" desc="signals">
 
 	/**
 	 * Handle change page signal
@@ -221,25 +231,18 @@ class Grid extends \Nette\Application\Control
 	 */
 	public function handleChangePage($page)
 	{
-		$this->setPage($page);
-
 		if ($this->presenter->isAjax()) {
 			$this->invalidateControl();
-		} else {
-			$this->redirect("this");
 		}
 	}
 
 
 
-	/**
-	 * Load state
-	 * @param array params
-	 */
-	public function loadState(array $params)
+	public function handleSort($sortColumn, $sortType)
 	{
-		parent::loadState($params);
-		$this->setPage(isset($params["page"]) ? $params["page"] : 1);
+		if ($this->presenter->isAjax()) {
+			$this->invalidateControl();
+		}
 	}
 
 	// </editor-fold>
@@ -251,6 +254,13 @@ class Grid extends \Nette\Application\Control
 	 */
 	public function render()
 	{
+		$this->paginator->setPage($this->page);
+		$this->model->setLimit($this->paginator->getOffset(), $this->paginator->getLength());
+
+		if ($this->sortColumn && $this["columns"][$this->sortColumn]->isSortable()) {
+			$this->model->setSorting($this->sortColumn, $this->sortType);
+		}
+
 		$this->template->render();
 	}
 	

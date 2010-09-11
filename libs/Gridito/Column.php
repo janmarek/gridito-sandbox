@@ -21,12 +21,6 @@ class Column extends \Nette\Application\Control
 	/** @var bool */
 	private $sortable = false;
 
-	/**
-	 * @var string|null
-	 * @persistent
-	 */
-	public $sorting = null;
-
 	/** @var string */
 	private $dateTimeFormat = "j.n.Y G:i";
 
@@ -105,6 +99,22 @@ class Column extends \Nette\Application\Control
 
 
 	/**
+	 * Get sorting
+	 * @return string|null asc, desc or null
+	 */
+	public function getSorting()
+	{
+		$grid = $this->getGrid();
+		if ($grid->sortColumn === $this->getName()) {
+			return $grid->sortType;
+		} else {
+			return null;
+		}
+	}
+
+
+
+	/**
 	 * Get date/time format
 	 * @return string
 	 */
@@ -134,36 +144,6 @@ class Column extends \Nette\Application\Control
 		return $this->getParent()->getParent();
 	}
 	
-	// </editor-fold>
-
-	// <editor-fold defaultstate="collapsed" desc="signals & loadState">
-
-	/**
-	 * Handle sort
-	 * @param string type
-	 */
-	public function handleSort($type) {
-		$this->sorting = $type;
-
-		if ($this->presenter->isAjax()) {
-			$this->loadSorting();
-			$this->getGrid()->invalidateControl();
-		} else {
-			$this->redirect("this");
-		}
-	}
-
-
-
-	/**
-	 * Load state
-	 * @param array $params
-	 */
-	public function loadState(array $params) {
-		parent::loadState($params);
-		$this->loadSorting();
-	}
-
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="rendering">
@@ -213,22 +193,5 @@ class Column extends \Nette\Application\Control
 	}
 	
 	// </editor-fold>
-
-	// <editor-fold defaultstate="collapsed" desc="helpers">
-
-	/**
-	 * Load sorting
-	 */
-	private function loadSorting() {
-		if (!$this->sortable || !in_array($this->sorting, array("asc", "desc"))) return;
-
-		foreach ($this->getParent()->getComponents() as $column) {
-			if ($column !== $this) $column->sorting = null;
-		}
-
-		$this->getGrid()->getModel()->setSorting($this->getName(), $this->sorting);
-	}
-
-    // </editor-fold>
 
 }

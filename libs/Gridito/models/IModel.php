@@ -10,6 +10,9 @@ namespace Gridito;
  */
 interface IModel extends \IteratorAggregate, \Countable
 {
+	const ASC = "asc";
+	const DESC = "desc";
+
 	public function setupGrid(Grid $grid);
 
 	public function processActionParam($param);
