@@ -15,7 +15,7 @@ class Button extends BaseButton {
 	/** @var bool */
 	private $ajax = false;
 
-	/** @var string|false */
+	/** @var string|callback|false */
 	private $confirmationQuestion = false;
 
 	// </editor-fold>
@@ -44,7 +44,7 @@ class Button extends BaseButton {
 
 	/**
 	 * Get confirmation question
-	 * @return string|false
+	 * @return string|callback|false
 	 */
 	public function getConfirmationQuestion() {
 		return $this->confirmationQuestion;
@@ -53,7 +53,7 @@ class Button extends BaseButton {
 
 	/**
 	 * Set confirmation question
-	 * @param string|false $confirmationQuestion
+	 * @param string|callback|false $confirmationQuestion
 	 * @return Button
 	 */
 	public function setConfirmationQuestion($confirmationQuestion) {
@@ -97,7 +97,8 @@ class Button extends BaseButton {
 		}
 
 		if ($this->confirmationQuestion) {
-			$el->onClick = "gridito.confirmationQuestion(event, " . json_encode($this->confirmationQuestion) . ")";
+			$question = is_callable($this->confirmationQuestion) ? call_user_func($this->confirmationQuestion, $row) : $this->confirmationQuestion;
+			$el->onClick = "gridito.confirmationQuestion(event, " . json_encode($question) . ")";
 		}
 		
 		return $el;
