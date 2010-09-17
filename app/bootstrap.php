@@ -10,8 +10,6 @@
 
 use Nette\Debug;
 use Nette\Environment;
-use Nette\Application\Route;
-
 
 
 // Step 1: Load Nette Framework
@@ -41,12 +39,7 @@ $application->errorPresenter = 'Error';
 // Step 4: Setup application router
 $router = $application->getRouter();
 
-$router[] = new Route('index.php', array(
-	'presenter' => 'Homepage',
-	'action' => 'default',
-), Route::ONE_WAY);
-
-$router[] = new Route('<presenter>/<action>/<id>', array(
+$router[] = new Nette\Application\SimpleRouter(array(
 	'presenter' => 'Homepage',
 	'action' => 'default',
 	'id' => NULL,

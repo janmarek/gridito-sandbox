@@ -19,6 +19,8 @@ interface IModel extends \IteratorAggregate, \Countable
 
 	public function setSorting($column, $type);
 
-	public function setLimit($offset, $limit);
+	public function setLimit($limit);
+
+	public function setOffset($offset);
 
 }

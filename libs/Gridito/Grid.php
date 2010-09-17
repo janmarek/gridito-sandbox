@@ -67,7 +67,6 @@ class Grid extends \Nette\Application\Control
 		
 		$this->paginator = new Paginator;
 		$this->paginator->setItemsPerPage($this->defaultItemsPerPage);
-
 	}
 
 	// </editor-fold>
@@ -255,9 +254,10 @@ class Grid extends \Nette\Application\Control
 	public function render()
 	{
 		$this->paginator->setPage($this->page);
-		$this->model->setLimit($this->paginator->getOffset(), $this->paginator->getLength());
+		$this->model->setLimit($this->paginator->getLength());
+		$this->model->setOffset($this->paginator->getOffset());
 
-		if ($this->sortColumn && $this["columns"][$this->sortColumn]->isSortable()) {
+		if ($this->sortColumn && $this["columns"]->getComponent($this->sortColumn)->isSortable()) {
 			$this->model->setSorting($this->sortColumn, $this->sortType);
 		}
 
@@ -370,7 +370,6 @@ class Grid extends \Nette\Application\Control
 	{
 		$paginator = $this->getPaginator();
 		$paginator->setPage($page);
-		$this->model->setLimit($paginator->getOffset(), $paginator->getLength());
 	}
 
 

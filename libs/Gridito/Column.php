@@ -149,6 +149,30 @@ class Column extends \Nette\Application\Control
 	// <editor-fold defaultstate="collapsed" desc="rendering">
 
 	/**
+	 * Render boolean
+	 * @param bool value
+	 */
+	public static function renderBoolean($value)
+	{
+		$icon = $value ? "check" : "closethick";
+		echo '<span class="ui-icon ui-icon-' . $icon . '"></span>';
+	}
+
+	
+
+	/**
+	 * Render datetime
+	 * @param Datetime value
+	 * @param string datetime format
+	 */
+	public static function renderDateTime($value, $format)
+	{
+		echo $value->format($this->dateTimeFormat);
+	}
+
+
+
+	/**
 	 * Default cell renderer
 	 * @param mixed $record
 	 * @param Column $column
@@ -159,12 +183,11 @@ class Column extends \Nette\Application\Control
 
 		// boolean
 		if (is_bool($value)) {
-			$icon = $value ? "check" : "closethick";
-			echo '<span class="ui-icon ui-icon-' . $icon . '"></span>';
+			self::renderBoolean($value);
 			
 		// date
 		} elseif ($value instanceof \DateTime) {
-			echo $value->format($this->dateTimeFormat);
+			self::renderDateTime($value, $this->dateTimeFormat);
 
 		// other
 		} else {

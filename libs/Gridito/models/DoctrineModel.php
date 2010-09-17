@@ -94,18 +94,21 @@ class DoctrineModel extends Nette\Object implements IModel
 
 
 	/**
-	 * @param int Offset
-	 * @param int Limit
+	 * @param int limit
 	 */
-	public function setLimit($offset, $limit)
+	public function setLimit($limit)
 	{
-		if ($limit !== null) {
-			$this->query->setMaxResults($limit);
-		}
-		
-		if ($offset !== null) {
-			$this->query->setFirstResult($offset);
-		}
+		$this->query->setMaxResults($limit);
+	}
+
+
+
+	/**
+	 * @param int offset
+	 */
+	public function setOffset($offset)
+	{
+		$this->query->setFirstResult($offset);
 	}
 
 
@@ -141,7 +144,6 @@ class DoctrineModel extends Nette\Object implements IModel
 				->getSingleResult();
 		} catch (\Doctrine\ORM\NoResultException $e) {
 			return false;
-			Debug::processException($e);
 		}
 	}
 

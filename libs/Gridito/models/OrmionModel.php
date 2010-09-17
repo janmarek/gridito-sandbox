@@ -98,13 +98,23 @@ class OrmionModel extends \Nette\Object implements IModel
 
 	/**
 	 * Set limit
-	 * @param int offset
 	 * @param int limit
 	 */
 	public function setLimit($offset, $limit)
 	{
-		$this->collection->removeClause("offset")->offset($offset);
+		
 		$this->collection->removeClause("limit")->limit($limit);
+	}
+
+
+
+	/**
+	 * Set offset
+	 * @param int offset
+	 */
+	public function setOffset($offset)
+	{
+		$this->collection->removeClause("offset")->offset($offset);
 	}
 
 }
