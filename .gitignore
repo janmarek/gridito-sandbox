@@ -1,4 +1,5 @@
 libs/Nette
 libs/dibi
+libs/Doctrine
 nbproject
 app/temp
