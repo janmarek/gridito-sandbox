@@ -40,6 +40,14 @@ class DoctrinePresenter extends BasePresenter
 	
 	// </editor-fold>
 
+
+	public function templatePrepareFilters($template)
+	{
+		$latteFilter = new Nette\Templates\LatteFilter;
+		Gridito\TemplateMacros::register($latteFilter->getHandler());
+		$template->registerFilter($latteFilter);
+	}
+
 	protected function createComponentGrid($name)
 	{
 		$grid = new Gridito\Grid($this, $name);
@@ -48,14 +56,14 @@ class DoctrinePresenter extends BasePresenter
 		$grid->setModel(new Gridito\DoctrineModel($this->getEntityManager(), "Model\User"));
 
 		// columns
-		$grid->addColumn("id", "ID")->setSortable(true);
-		$grid->addColumn("username", "Uživatelské jméno")->setSortable(true);
-		$grid->addColumn("name", "Jméno")->setSortable(true);
-		$grid->addColumn("surname", "Příjmení")->setSortable(true);
-		$grid->addColumn("mail", "E-mail", function ($row) {
+		$grid->addColumn("id");
+		$grid->addColumn("username");
+		$grid->addColumn("name");
+		$grid->addColumn("surname");
+		$grid->addColumn("mail")->setCellRenderer(function ($row) {
 			echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
-		})->setSortable(true);
-		$grid->addColumn("active", "Aktivní")->setSortable(true);
+		});
+		$grid->addColumn("active");
 
 		// buttons
 		$grid->addButton("Tlačítko", function ($id) use ($grid) {

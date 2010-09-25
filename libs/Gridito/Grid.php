@@ -275,7 +275,7 @@ class Grid extends \Nette\Application\Control
 	 * @param callback renderer
 	 * @return Column
 	 */
-	public function addColumn($name, $label, $renderer = null)
+	public function addColumn($name, $label = null, $renderer = null)
 	{
 		$column = new Column($this["columns"], $name);
 		$column->setLabel($label);
