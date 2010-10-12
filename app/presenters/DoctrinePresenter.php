@@ -40,13 +40,7 @@ class DoctrinePresenter extends BasePresenter
 	
 	// </editor-fold>
 
-
-	public function templatePrepareFilters($template)
-	{
-		$latteFilter = new Nette\Templates\LatteFilter;
-		Gridito\TemplateMacros::register($latteFilter->getHandler());
-		$template->registerFilter($latteFilter);
-	}
+	
 
 	protected function createComponentGrid($name)
 	{
@@ -56,14 +50,14 @@ class DoctrinePresenter extends BasePresenter
 		$grid->setModel(new Gridito\DoctrineModel($this->getEntityManager(), "Model\User"));
 
 		// columns
-		$grid->addColumn("id");
-		$grid->addColumn("username");
-		$grid->addColumn("name");
-		$grid->addColumn("surname");
-		$grid->addColumn("mail")->setCellRenderer(function ($row) {
+		$grid->addColumn("id", "ID");
+		$grid->addColumn("username", "Uživatelské jméno");
+		$grid->addColumn("name", "Jméno");
+		$grid->addColumn("surname", "Příjmení");
+		$grid->addColumn("mail", "Mail", function ($row) {
 			echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 		});
-		$grid->addColumn("active");
+		$grid->addColumn("active", "Aktivní");
 
 		// buttons
 		$grid->addButton("Tlačítko", function ($id) use ($grid) {
