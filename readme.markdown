@@ -19,7 +19,6 @@ Vyžaduje
 - jQuery UI (CSS, jQuery UI Dialog, jQuery UI Button)
 - jQuery LiveQuery plugin
 - Nette jQuery Ajax plugin
-- ORM Ormion + dibi (nebo vlastní implementace modelu)
 
 Použití
 -------
@@ -35,11 +34,6 @@ b) Ukázkový presenter:
 
 	class GridPresenter extends BasePresenter {
 
-		protected function beforeRender() {
-			$session = Environment::getSession();
-			if (!$session->isStarted()) $session->start();
-		}
-
 
 		protected function createComponentGrid($name) {
 			$grid = new Grid;
@@ -48,26 +42,41 @@ b) Ukázkový presenter:
 			$grid->model = new OrmionModel(Color::findAll());
 			$grid->setItemsPerPage(5);
 
-			$grid->addColumn("hash", "Hexadecimální kód", function ($record) {
-				echo "<span style='color:#$record->hash'>#$record->hash</span>";
-			})->setSortable(true);
+			$grid->addColumn("hash", "Hexadecimální kód", array(
+				'renderer' => function ($record) {
+					echo "<span style='color:#$record->hash'>#$record->hash</span>";
+				},
+				'sortable' => true,
+			));
 			$grid->addColumn("description", "Popis");
 			$grid->addColumn("nice", "Je krásná")->setSortable(true);
 			$grid->addColumn("created", "Vytvořeno")->setSortable(true);
 
-			$grid->addToolbarWindowButton("Přidat", function () use ($presenter) {
-				$presenter["addForm"]->render();
-			}, "plusthick");
+			$grid->addToolbarWindowButton("add", "Přidat", array(
+				'handler' => function () use ($presenter) {
+					$presenter["addForm"]->render();
+				},
+				'icon' => 'plusthick',
+			));
 
-			$grid->addWindowButton("Upravit", function ($record) use ($presenter) {
-				$presenter["editForm"]->setDefaults($record);
-				$presenter["editForm"]->render();
-			}, "pencil");
+			$grid->addWindowButton("edit", "Upravit", array(
+				'handler' => function ($record) use ($presenter) {
+					$presenter["editForm"]->setDefaults($record);
+					$presenter["editForm"]->render();
+				},
+				'icon' => 'pencil',
+			));
 
-			$grid->addButton("Smazat", function ($record) use ($grid) {
-				$record->delete();
-				$grid->flashMessage("Barva byla smazána.");
-			}, "closethick")->setConfirmationQuestion("Opravdu smazat barvu?");
+			$grid->addButton("delete", "Smazat", array(
+				'handler' => function ($record) use ($grid) {
+					$record->delete();
+					$grid->flashMessage("Barva byla smazána.");
+				},
+				'icon' => 'closethick',
+				'confirmationQuestion' => function ($record) {
+					return "Opravdu smazat barvu #$record->hash?"
+				},
+			));
 
 			return $grid;
 		}

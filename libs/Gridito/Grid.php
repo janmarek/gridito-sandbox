@@ -47,12 +47,6 @@ class Grid extends \Nette\Application\Control
 	/** @var string */
 	private $ajaxClass = "ajax";
 
-	/** @var int */
-	private $toolbarButtonId = 0;
-
-	/** @var int */
-	private $actionButtonId = 0;
-
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="constructor">
@@ -226,7 +220,7 @@ class Grid extends \Nette\Application\Control
 
 	/**
 	 * Handle change page signal
-	 * @param int $page
+	 * @param int page
 	 */
 	public function handleChangePage($page)
 	{
@@ -249,6 +243,17 @@ class Grid extends \Nette\Application\Control
 	// <editor-fold defaultstate="collapsed" desc="rendering">
 
 	/**
+	 * Create template
+	 * @return Template
+	 */
+	protected function createTemplate()
+	{
+		return parent::createTemplate()->setFile(__DIR__ . "/templates/grid.phtml");
+	}
+
+
+
+	/**
 	 * Render grid
 	 */
 	public function render()
@@ -266,20 +271,19 @@ class Grid extends \Nette\Application\Control
 	
 	// </editor-fold>
 
-	// <editor-fold defaultstate="collapsed" desc="component factories">
 
 	/**
 	 * Add column
 	 * @param string name
 	 * @param string label
-	 * @param callback renderer
+	 * @param array options
 	 * @return Column
 	 */
-	public function addColumn($name, $label = null, $renderer = null)
+	public function addColumn($name, $label = null, array $options = array())
 	{
 		$column = new Column($this["columns"], $name);
 		$column->setLabel($label);
-		if ($renderer) $column->setCellRenderer($renderer);
+		$this->setOptions($column, $options);
 		return $column;
 	}
 
@@ -288,30 +292,32 @@ class Grid extends \Nette\Application\Control
 	/**
 	 * Add action button
 	 * @param string button name
-	 * @param callback handler
-	 * @param string jQuery UI icon
+	 * @param string label
+	 * @param array options
 	 * @return Button
 	 */
-	public function addButton($label, $handler, $icon = null)
+	public function addButton($name, $label = null, array $options = array())
 	{
-		$button = $this->createButton("\Gridito\Button", $label, $handler, $icon);
-		$this["actions"]->addComponent($button, ++$this->actionButtonId);
+		$button = new Button($this["actions"], $name);
+		$button->setLabel($label);
+		$this->setOptions($button, $options);
 		return $button;
 	}
 
 
 
 	/**
-	 * Add action window button
+	 * Add window button
 	 * @param string button name
-	 * @param callback handler
-	 * @param string jQuery UI icon
+	 * @param string label
+	 * @param array options
 	 * @return WindowButton
 	 */
-	public function addWindowButton($label, $handler, $icon = null)
+	public function addWindowButton($name, $label = null, array $options = array())
 	{
-		$button = $this->createButton("\Gridito\WindowButton", $label, $handler, $icon);
-		$this["actions"]->addComponent($button, ++$this->actionButtonId);
+		$button = new WindowButton($this["actions"], $name);
+		$button->setLabel($label);
+		$this->setOptions($button, $options);
 		return $button;
 	}
 
@@ -320,14 +326,15 @@ class Grid extends \Nette\Application\Control
 	/**
 	 * Add action button to toolbar
 	 * @param string button name
-	 * @param callback handler
-	 * @param string jQuery UI icon
+	 * @param string label
+	 * @param array options
 	 * @return Button
 	 */
-	public function addToolbarButton($label, $handler, $icon = null)
+	public function addToolbarButton($name, $label = null, array $options = array())
 	{
-		$button = $this->createButton("\Gridito\Button", $label, $handler, $icon);
-		$this["toolbar"]->addComponent($button, ++$this->toolbarButtonId);
+		$button = new Button($this["toolbar"], $name);
+		$button->setLabel($label);
+		$this->setOptions($button, $options);
 		return $button;
 	}
 
@@ -336,28 +343,16 @@ class Grid extends \Nette\Application\Control
 	/**
 	 * Add window button to toolbar
 	 * @param string button name
-	 * @param callback handler
-	 * @param string jQuery UI icon
+	 * @param string label
+	 * @param array options
 	 * @return WindowButton
 	 */
-	public function addToolbarWindowButton($label, $handler, $icon = null)
+	public function addToolbarWindowButton($name, $label = null, array $options = array())
 	{
-		$button = $this->createButton("\Gridito\WindowButton", $label, $handler, $icon);
-		$this["toolbar"]->addComponent($button, ++$this->toolbarButtonId);
+		$button = new WindowButton($this["toolbar"], $name);
+		$button->setLabel($label);
+		$this->setOptions($button, $options);
 		return $button;
-	}
-
-	// </editor-fold>
-	
-	// <editor-fold defaultstate="collapsed" desc="helpers">
-
-	/**
-	 * Create template
-	 * @return Template
-	 */
-	protected function createTemplate()
-	{
-		return parent::createTemplate()->setFile(__DIR__ . "/templates/grid.phtml");
 	}
 
 
@@ -368,29 +363,21 @@ class Grid extends \Nette\Application\Control
 	 */
 	private function setPage($page)
 	{
-		$paginator = $this->getPaginator();
-		$paginator->setPage($page);
+		$this->getPaginator()->setPage($page);
 	}
 
 
 
-	/**
-	 * Create button
-	 * @param string button class name
-	 * @param string label
-	 * @param callback handler
-	 * @param string icon
-	 * @return BaseButton
-	 */
-	private function createButton($class, $label, $handler, $icon = null)
-		{
-		$button = new $class;
-		$button->setLabel($label);
-		$button->setHandler($handler);
-		if ($icon) $button->setIcon($icon);
-		return $button;
+	protected function setOptions($object, $options)
+	{
+		foreach	($options as $option => $value) {
+			$method = "set" . ucfirst($option);
+			if (method_exists($object, $method)) {
+				$object->$method($value);
+			} else {
+				throw new \InvalidArgumentException("Option with name $option does not exist.");
+			}
+		}
 	}
-
-	// </editor-fold>
 	
 }

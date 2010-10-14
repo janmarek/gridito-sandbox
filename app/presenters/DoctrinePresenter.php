@@ -50,20 +50,26 @@ class DoctrinePresenter extends BasePresenter
 		$grid->setModel(new Gridito\DoctrineModel($this->getEntityManager(), "Model\User"));
 
 		// columns
-		$grid->addColumn("id", "ID");
-		$grid->addColumn("username", "Uživatelské jméno");
-		$grid->addColumn("name", "Jméno");
-		$grid->addColumn("surname", "Příjmení");
-		$grid->addColumn("mail", "Mail", function ($row) {
-			echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
-		});
-		$grid->addColumn("active", "Aktivní");
+		$grid->addColumn("id", "ID")->setSortable(true);
+		$grid->addColumn("username", "Uživatelské jméno")->setSortable(true);
+		$grid->addColumn("name", "Jméno")->setSortable(true);
+		$grid->addColumn("surname", "Příjmení")->setSortable(true);
+		$grid->addColumn("mail", "Mail", array(
+			"sortable" => true,
+			"renderer" => function ($row) {
+				echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
+			}
+		));
+		$grid->addColumn("active", "Aktivní")->setSortable(true);
 
 		// buttons
-		$grid->addButton("Tlačítko", function ($id) use ($grid) {
-			$grid->flashMessage("Stisknuto tlačítko na řádku $id");
-			$grid->redirect("this");
-		});
+		$grid->addButton("button", "Tlačítko", array(
+			"icon" => "plusthick",
+			"handler" => function ($id) use ($grid) {
+				$grid->flashMessage("Stisknuto tlačítko na řádku $id");
+				$grid->redirect("this");
+			}
+		));
 	}
 
 }

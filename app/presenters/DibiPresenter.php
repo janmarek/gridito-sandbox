@@ -26,12 +26,12 @@ class DibiPresenter extends BasePresenter
 		$grid->addColumn("username", "Uživatelské jméno")->setSortable(true);
 		$grid->addColumn("name", "Jméno")->setSortable(true);
 		$grid->addColumn("surname", "Příjmení")->setSortable(true);
-		$grid->addColumn("mail", "E-mail", function ($row) {
+		$grid->addColumn("mail", "E-mail")->setRenderer(function ($row) {
 			echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 		})->setSortable(true);
 
 		// buttons
-		$grid->addButton("Tlačítko", function ($id) use ($grid) {
+		$grid->addButton("button", "Tlačítko")->setHandler(function ($id) use ($grid) {
 			$grid->flashMessage("Stisknuto tlačítko na řádku $id");
 			$grid->redirect("this");
 		});

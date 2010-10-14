@@ -16,7 +16,7 @@ class Column extends \Nette\Application\Control
 	private $label;
 
 	/** @var callback */
-	private $cellRenderer = null;
+	private $renderer = null;
 
 	/** @var bool */
 	private $sortable = false;
@@ -56,9 +56,9 @@ class Column extends \Nette\Application\Control
 	 * Get cell renderer
 	 * @return callback
 	 */
-	public function getCellRenderer()
+	public function getRenderer()
 	{
-		return $this->cellRenderer;
+		return $this->renderer;
 	}
 
 
@@ -68,9 +68,9 @@ class Column extends \Nette\Application\Control
 	 * @param callback cell renderer
 	 * @return Column
 	 */
-	public function setCellRenderer($cellRenderer)
+	public function setRenderer($cellRenderer)
 	{
-		$this->cellRenderer = $cellRenderer;
+		$this->renderer = $cellRenderer;
 		return $this;
 	}
 
@@ -146,8 +146,6 @@ class Column extends \Nette\Application\Control
 	
 	// </editor-fold>
 
-	// <editor-fold defaultstate="collapsed" desc="rendering">
-
 	/**
 	 * Render boolean
 	 * @param bool value
@@ -202,8 +200,7 @@ class Column extends \Nette\Application\Control
 	 * @param mixed record
 	 */
 	public function renderCell($record) {
-		call_user_func($this->cellRenderer ?: array($this, "defaultCellRenderer"), $record, $this);
-
+		call_user_func($this->renderer ?: array($this, "defaultCellRenderer"), $record, $this);
 	}
 
 
@@ -214,7 +211,5 @@ class Column extends \Nette\Application\Control
 	public function renderHeaderCell() {
 		$this->template->setFile(__DIR__ . "/templates/th.phtml")->render();
 	}
-	
-	// </editor-fold>
 
 }
