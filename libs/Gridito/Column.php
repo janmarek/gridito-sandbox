@@ -143,7 +143,7 @@ class Column extends \Nette\Application\Control
 	public function getGrid() {
 		return $this->getParent()->getParent();
 	}
-	
+
 	// </editor-fold>
 
 	/**
@@ -156,7 +156,7 @@ class Column extends \Nette\Application\Control
 		echo '<span class="ui-icon ui-icon-' . $icon . '"></span>';
 	}
 
-	
+
 
 	/**
 	 * Render datetime
@@ -182,7 +182,7 @@ class Column extends \Nette\Application\Control
 		// boolean
 		if (is_bool($value)) {
 			self::renderBoolean($value);
-			
+
 		// date
 		} elseif ($value instanceof \DateTime) {
 			self::renderDateTime($value, $this->dateTimeFormat);
@@ -201,15 +201,6 @@ class Column extends \Nette\Application\Control
 	 */
 	public function renderCell($record) {
 		call_user_func($this->renderer ?: array($this, "defaultCellRenderer"), $record, $this);
-	}
-
-
-	
-	/**
-	 * Render header cell
-	 */
-	public function renderHeaderCell() {
-		$this->template->setFile(__DIR__ . "/templates/th.phtml")->render();
 	}
 
 }

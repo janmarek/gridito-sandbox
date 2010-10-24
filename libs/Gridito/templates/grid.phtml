@@ -21,7 +21,19 @@
 	<thead>
 		<tr>
 			<th class="ui-widget-header" n:foreach="$control['columns']->getComponents() as $column">
-				{? $column->renderHeaderCell()}
+				{if $column->isSortable()}
+                <span class="sorting">
+                    {if $column->getSorting() === null}
+                    <a href="{$control->link("sort!", $column->getName(), "asc")}" class="{$control->getAjaxClass()}"><span class="ui-icon ui-icon-carat-2-n-s"></span></a>
+                    {elseif $column->sorting === "asc"}
+                    <a href="{$control->link("sort!", $column->getName(), "desc")}" class="{$control->getAjaxClass()}"><span class="ui-icon ui-icon-triangle-1-n"></span></a>
+                    {elseif $column->sorting === "desc"}
+                    <a href="{$control->link("sort!", null, null)}" class="{$control->getAjaxClass()}"><span class="ui-icon ui-icon-triangle-1-s"></span></a>
+                    {/if}
+                </span>
+                {/if}
+
+                {$column->getLabel()}
 			</th>
 			<th class="ui-widget-header" n:if="$control->hasActions()"></th>
 		</tr>
