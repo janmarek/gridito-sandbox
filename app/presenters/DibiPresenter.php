@@ -10,6 +10,18 @@ use Nette\Application\AppForm;
  */
 class DibiPresenter extends BasePresenter
 {
+	/**
+	 * @var bool
+	 * @persistent
+	 */
+	public $activeOnly;
+
+	/**
+	 * @var string
+	 * @persistent
+	 */
+	public $search;
+
 	public function renderDefault()
 	{
 		$this->template->filters = $this["filters"];
