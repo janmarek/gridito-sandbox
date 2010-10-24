@@ -24,9 +24,33 @@ class Column extends \Nette\Application\Control
 	/** @var string */
 	private $dateTimeFormat = "j.n.Y G:i";
 
+	/** @var string|callable */
+	private $cellClass = null;
+
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="getters & setters">
+
+	public function setCellClass($class)
+	{
+	    $this->cellClass = $class;
+		return $this;
+	}
+
+
+
+	public function getCellClass($iterator, $row)
+	{
+		if (is_callable($this->cellClass)) {
+			return call_user_func($this->cellClass, $iterator, $row);
+		} elseif (is_string($this->cellClass)) {
+			return $this->cellClass;
+		} else {
+			return null;
+		}
+	}
+
+
 
 	/**
 	 * Get label

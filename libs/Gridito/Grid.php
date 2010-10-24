@@ -47,6 +47,12 @@ class Grid extends \Nette\Application\Control
 	/** @var string */
 	private $ajaxClass = "ajax";
 
+	/** @var bool */
+	private $highlightOrderedColumn = true;
+
+	/** @var string|callable */
+	private $rowClass = null;
+
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="constructor">
@@ -58,7 +64,7 @@ class Grid extends \Nette\Application\Control
 		$this->addComponent(new ComponentContainer, "toolbar");
 		$this->addComponent(new ComponentContainer, "actions");
 		$this->addComponent(new ComponentContainer, "columns");
-		
+
 		$this->paginator = new Paginator;
 		$this->paginator->setItemsPerPage($this->defaultItemsPerPage);
 	}
@@ -66,6 +72,49 @@ class Grid extends \Nette\Application\Control
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="getters & setters">
+
+	/**
+	 * @param bool highlight ordered column
+	 * @return Grid
+	 */
+	public function setHighlightOrderedColumn($highlightOrderedColumn)
+	{
+		$this->highlightOrderedColumn = (bool) $highlightOrderedColumn;
+		return $this;
+	}
+
+
+
+	/**
+	 * @return bool
+	 */
+	public function getHighlightOrderedColumn()
+	{
+		return $this->highlightOrderedColumn;
+	}
+
+
+
+	public function setRowClass($class)
+	{
+	    $this->rowClass = $class;
+		return $this;
+	}
+
+
+
+	public function getRowClass($iterator, $row)
+	{
+		if (is_callable($this->rowClass)) {
+			return call_user_func($this->rowClass, $iterator, $row);
+		} elseif (is_string($this->rowClass)) {
+			return $this->rowClass;
+		} else {
+			return null;
+		}
+	}
+
+
 
 	/**
 	 * Get model
@@ -77,7 +126,7 @@ class Grid extends \Nette\Application\Control
 	}
 
 
-	
+
 	/**
 	 * Set model
 	 * @param IModel model
@@ -268,7 +317,7 @@ class Grid extends \Nette\Application\Control
 
 		$this->template->render();
 	}
-	
+
 	// </editor-fold>
 
 
@@ -379,5 +428,5 @@ class Grid extends \Nette\Application\Control
 			}
 		}
 	}
-	
+
 }

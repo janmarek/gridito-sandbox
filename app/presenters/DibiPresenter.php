@@ -14,7 +14,7 @@ class DibiPresenter extends BasePresenter
 	 * @var bool
 	 * @persistent
 	 */
-	public $activeOnly;
+	public $activeOnly = false;
 
 	/**
 	 * @var string
@@ -43,7 +43,7 @@ class DibiPresenter extends BasePresenter
 		$fluent = $db->select("*")->from("users");
 
 		// filters
-		$activeOnly = $this->getParam("activeOnly", false);
+		$activeOnly = $this->getParam("activeOnly");
 		if ($activeOnly) {
 			$fluent->where("active = %b", $activeOnly);
 		}
@@ -57,6 +57,13 @@ class DibiPresenter extends BasePresenter
 		}
 
 		$grid->setModel(new Gridito\DibiFluentModel($fluent));
+
+		$grid->setRowClass(function ($iterator, $row) {
+			$classes = array();
+			if ($iterator->isOdd()) $classes[] = "odd";
+			if (!$row->active) $classes[] = "inactive";
+			return empty($classes) ? null : implode(" ", $classes);
+		});
 
 		// columns
 		$grid->addColumn("id", "ID")->setSortable(true);
@@ -74,6 +81,7 @@ class DibiPresenter extends BasePresenter
 				Gridito\Column::renderBoolean($row->active);
 			},
 			"sortable" => true,
+			"cellClass" => "small",
 		));
 
 		// buttons
@@ -91,7 +99,7 @@ class DibiPresenter extends BasePresenter
 		$form->addText("search", "Hledaný výraz")
 			->setDefaultValue($this->getParam("search", ""));
 		$form->addCheckbox("activeOnly", "Pouze aktivní uživatelé")
-			->setDefaultValue($this->getParam("activeOnly", false));
+			->setDefaultValue($this->getParam("activeOnly"));
 		$form->addSubmit("s", "Filtrovat");
 		$form->onSubmit[] = array($this, "filters_submit");
 	}
