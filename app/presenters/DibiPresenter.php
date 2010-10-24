@@ -100,12 +100,7 @@ class DibiPresenter extends BasePresenter
 
 	public function filters_submit($form)
 	{
-		$values = $form->getValues();
-		$params = array();
-		if ($values["activeOnly"]) $params["activeOnly"] = true;
-		if ($values["search"]) $params["search"] = $values["search"];
-
-		$this->redirect("default", $params);
+		$this->redirect("default", $form->getValues());
 	}
 
 }
