@@ -1,3 +1,14 @@
 @{block content}
 
-@{widget grid}
+{control $filters begin}
+<fieldset style="border:1px solid silver; margin-bottom: 1.5em;">
+    <legend>Filtry</legend>
+    <p>
+        {$filters["search"]->label} {$filters["search"]->control}
+        {$filters["activeOnly"]->control} {$filters["activeOnly"]->label}
+        {$filters["s"]->control}
+    </p>
+</fieldset>
+{control $filters end}
+
+@{control grid}
