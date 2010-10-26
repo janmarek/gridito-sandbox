@@ -34,13 +34,13 @@
 
             {* grid table *}
             {block table}
-            <table class="gridito-table ui-widget ui-widget-content">
+            <table class="gridito-table">
                 <thead>
                     <tr>
                         {block tableheader}
-                        <th class="ui-widget-header" n:foreach="$control['columns']->getComponents() as $column">
+                        <th n:foreach="$control['columns']->getComponents() as $column">
                             {block tableheadercontent}
-                            <span class="sorting" n:if="$column->isSortable()">
+                            <span class="gridito-sorting" n:if="$column->isSortable()">
                                 <a n:if="$column->getSorting() === null" n:href="sort!, $column->getName(), asc" n:class="$control->getAjaxClass()"><span class="ui-icon ui-icon-carat-2-n-s"></span></a>
                                 <a n:if="$column->sorting === 'asc'" n:href="sort!, $column->getName(), desc" n:class="$control->getAjaxClass()"><span class="ui-icon ui-icon-triangle-1-n"></span></a>
                                 <a n:if="$column->sorting === 'desc'" n:href="sort!, null, null" n:class="$control->getAjaxClass()"><span class="ui-icon ui-icon-triangle-1-s"></span></a>
@@ -48,7 +48,7 @@
                             {$column->getLabel()}
                             {/block}
                         </th>
-                        <th class="ui-widget-header" n:if="$control->hasActions()"></th>
+                        <th n:if="$control->hasActions()"></th>
                         {/block}
                     </tr>
                 </thead>

@@ -47,16 +47,16 @@ div.gridito-flash .ui-icon {
 }
 
 /* th */
-.gridito-table th .sorting {
+.gridito-table th .gridito-sorting {
 	float:right;
 	margin-left: 5px;
 	position: relative;
 	top: 3px;
 }
-.gridito-table th .sorting .ui-icon {
+.gridito-table th .gridito-sorting .ui-icon {
 	opacity: 0.5
 }
-.gridito-table th:hover .sorting .ui-icon, .gridito-table th .sorting .ui-icon.ui-icon-triangle-1-s, .gridito-table th .sorting .ui-icon.ui-icon-triangle-1-n {
+.gridito-table th:hover .gridito-sorting .ui-icon, .gridito-table th .gridito-sorting .ui-icon.ui-icon-triangle-1-s, .gridito-table th .gridito-sorting .ui-icon.ui-icon-triangle-1-n {
 	opacity: 1
 }
 

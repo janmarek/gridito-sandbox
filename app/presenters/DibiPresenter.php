@@ -85,10 +85,22 @@ class DibiPresenter extends BasePresenter
 		));
 
 		// buttons
-		$grid->addButton("button", "Tlačítko")->setHandler(function ($id) use ($grid) {
-			$grid->flashMessage("Stisknuto tlačítko na řádku $id");
-			$grid->redirect("this");
-		});
+		$grid->addButton("button", "Tlačítko", array(
+			"icon" => "ui-icon-plusthick",
+			"confirmationQuestion" => function ($row) {
+				return "Opravdu stisknout u uživatele $row->name $row->surname?";
+			},
+			"handler" => function ($id) use ($grid) {
+				$grid->flashMessage("Stisknuto tlačítko na řádku $id");
+				$grid->redirect("this");
+			}
+		));
+		
+		$grid->addWindowButton("winbtn", "Okno", array(
+			"handler" => function ($id) {
+				echo $id;
+			}
+		));
 	}
 
 
