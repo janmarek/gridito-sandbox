@@ -1,0 +1,35 @@
+{var $baseTemplateFile = LIBS_DIR . "/Gridito/templates/grid.phtml"}
+{extends $baseTemplateFile}
+
+{block table}
+
+
+<fieldset>
+<legend>Seřadit podle</legend>
+
+<p>
+{foreach $control['columns']->getComponents() as $column}
+	{if $column->isSortable()}
+		{if !$iterator->isFirst()} | {/if}
+
+		<strong n:tag-if="$column->getSorting()">{$column->getLabel()}</strong>
+
+		<a n:if="$column->getSorting() === null" n:href="sort!, $column->getName(), asc" n:class="gridito-button, $control->getAjaxClass()">vzestupně</a>
+		<a n:if="$column->sorting === 'asc'" n:href="sort!, $column->getName(), desc" n:class="gridito-button, $control->getAjaxClass()">sestupně</a>
+		<a n:if="$column->sorting === 'desc'" n:href="sort!, null, null" n:class="gridito-button, $control->getAjaxClass()">zrušit</a>
+	{/if}
+{/foreach}
+</p>
+</fieldset>
+
+<div n:foreach="$control->getModel() as $item">
+	<h2>{$item->name} {$item->surname} (#{$item->id})</h2>
+
+	<p>E-mail: <a href="mailto:{$item->mail}">{$item->mail}</a>, aktivní: {=$item->active ? "ano" : "ne"}</p>
+
+	<p n:if="$control->hasActions()" n:inner-foreach="$control['actions']->getComponents() as $button">
+		{control $button $item}
+	</p>
+</div>
+
+{/block}

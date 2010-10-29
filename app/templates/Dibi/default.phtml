@@ -1,7 +1,7 @@
 {block content}
 
 {control $filters begin}
-<fieldset style="border:1px solid silver; margin-bottom: 1.5em;">
+<fieldset>
     <legend>Filtry</legend>
     <p>
         {$filters["search"]->label} {$filters["search"]->control}
@@ -14,15 +14,3 @@
 {control grid}
 
 <p><a n:href="Homepage:">Zpět</a></p>
-
-<style type="text/css">
-.gridito tr.odd td {
-	background: white;
-}
-.gridito tr.inactive td {
-	color: gray;
-}
-.gridito td.small {
-	max-width: 3em;
-}
-</style>

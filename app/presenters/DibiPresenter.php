@@ -22,6 +22,8 @@ class DibiPresenter extends BasePresenter
 	 */
 	public $search;
 
+
+
 	public function renderDefault()
 	{
 		$this->template->filters = $this["filters"];
@@ -33,37 +35,19 @@ class DibiPresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		// dibi connection
-		$db = new DibiConnection(array(
-			"driver" => "sqlite3",
-			"file" => APP_DIR . "/models/users.s3db",
-		));
+		$db = Nette\Environment::getService("DibiConnection");
+		$model = new Model\UsersGriditoDibiModel($db);
 
-		// model
-		$fluent = $db->select("*")->from("users");
-
-		// filters
-		$activeOnly = $this->getParam("activeOnly");
-		if ($activeOnly) {
-			$fluent->where("active = %b", $activeOnly);
+		if ($this->getParam("activeOnly")) {
+			$model->filterActiveOnly();
 		}
+
 		$search = $this->getParam("search", false);
 		if ($search) {
-			$searchString = "%$search%";
-			$fluent->where(
-				"(username like %s or name like %s or surname like %s or mail like %s)",
-				$searchString, $searchString, $searchString, $searchString
-			);
+			$model->filterSearch($search);
 		}
 
-		$grid->setModel(new Gridito\DibiFluentModel($fluent));
-
-		$grid->setRowClass(function ($iterator, $row) {
-			$classes = array();
-			if ($iterator->isOdd()) $classes[] = "odd";
-			if (!$row->active) $classes[] = "inactive";
-			return empty($classes) ? null : implode(" ", $classes);
-		});
+		$grid->setModel($model);
 
 		// columns
 		$grid->addColumn("id", "ID")->setSortable(true);
@@ -81,7 +65,6 @@ class DibiPresenter extends BasePresenter
 				Gridito\Column::renderBoolean($row->active);
 			},
 			"sortable" => true,
-			"cellClass" => "small",
 		));
 
 		// buttons
@@ -90,15 +73,9 @@ class DibiPresenter extends BasePresenter
 			"confirmationQuestion" => function ($row) {
 				return "Opravdu stisknout u uživatele $row->name $row->surname?";
 			},
-			"handler" => function ($id) use ($grid) {
-				$grid->flashMessage("Stisknuto tlačítko na řádku $id");
+			"handler" => function ($row) use ($grid) {
+				$grid->flashMessage("Stisknuto tlačítko na řádku $row->name $row->surname");
 				$grid->redirect("this");
-			}
-		));
-		
-		$grid->addWindowButton("winbtn", "Okno", array(
-			"handler" => function ($id) {
-				echo $id;
 			}
 		));
 	}

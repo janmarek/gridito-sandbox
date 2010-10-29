@@ -1,0 +1,14 @@
+body {
+	font-family: 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+	font-size: 0.8em;
+}
+
+.ui-widget {
+	font-size: 1em ! important;
+}
+
+fieldset {
+	border: 1px solid silver;
+	border-radius: 3px;
+	margin: 1em 0;
+}
