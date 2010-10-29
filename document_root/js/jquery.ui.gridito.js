@@ -33,7 +33,7 @@ $.widget("ui.gridito", {
 		initSortingIcons("ui-icon-triangle-1-s", "ui-icon-carat-2-n-s");
 
 		// buttons
-		this.element.find("table.gridito-table td.gridito-actioncell a, div.gridito-toolbar a, div.gridito-paginator a").each(function () {
+		this.element.find("a.gridito-button").each(function () {
 			var el = $(this);
 			el.button({
 				icons: {
@@ -48,7 +48,8 @@ $.widget("ui.gridito", {
 					e.stopImmediatePropagation();
 					e.preventDefault();
 			
-					var win = $('<div></div>').attr("title", $(this).attr("title")).appendTo('body');
+					var win = $('<div></div>').appendTo('body');
+					win.attr("title", $(this).attr("data-gridito-window-title"));
 					win.load(this.href, function () {
 						win.dialog({
 							modal: true
