@@ -139,7 +139,7 @@ abstract class BaseButton extends \Nette\Application\PresenterComponent
 
 		return $this->link('click!', array(
 			'token' => $grid->getSecurityToken(),
-			'uniqueId' => $row === null ? null : $row->{$grid->getPrimaryKey()},
+			'uniqueId' => $row === null ? null : $grid->getModel()->getUniqueId($row),
 		));
 	}
 
@@ -200,7 +200,7 @@ abstract class BaseButton extends \Nette\Application\PresenterComponent
 		if ($uniqueId === null) {
 			call_user_func($this->handler);
 		} else {
-			call_user_func($this->handler, $grid->getModel()->processActionParam($uniqueId));
+			call_user_func($this->handler, $grid->getModel()->getItemByUniqueId($uniqueId));
 		}
 	}
 
@@ -216,6 +216,7 @@ abstract class BaseButton extends \Nette\Application\PresenterComponent
 		return Html::el("a")
 			->href($this->getLink($row))
 			->data("gridito-icon", $this->icon)
+			->class(array("gridito-button"))
 			->setText($this->label);
 	}
 

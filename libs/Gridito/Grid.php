@@ -17,9 +17,6 @@ class Grid extends \Nette\Application\Control
 	/** @var IModel */
 	private $model;
 
-	/** @var string */
-	private $primaryKey = "id";
-
 	/** @var Paginator */
 	private $paginator;
 
@@ -134,33 +131,8 @@ class Grid extends \Nette\Application\Control
 	 */
 	public function setModel(IModel $model)
 	{
-		$model->setupGrid($this);
-		$this->getPaginator()->setItemCount(count($model));
+		$this->getPaginator()->setItemCount($model->count());
 		$this->model = $model;
-		return $this;
-	}
-
-
-
-	/**
-	 * Get primary key name
-	 * @return string
-	 */
-	public function getPrimaryKey()
-	{
-		return $this->primaryKey;
-	}
-
-
-
-	/**
-	 * Set primary key name
-	 * @param string primary key name
-	 * @return Grid
-	 */
-	public function setPrimaryKey($primaryKey)
-	{
-		$this->primaryKey = $primaryKey;
 		return $this;
 	}
 
