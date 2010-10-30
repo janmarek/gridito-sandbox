@@ -1,6 +1,7 @@
 body {
 	font-family: 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
 	font-size: 0.8em;
+	margin: 0;
 }
 
 .ui-widget {
@@ -11,4 +12,49 @@ fieldset {
 	border: 1px solid silver;
 	border-radius: 3px;
 	margin: 1em 0;
+}
+
+#header {
+	padding: 1.5em;
+	border-bottom: 1px solid silver;
+	color: gray;
+	background: #F8F8F8;
+}
+#header p {
+	margin: 1em 0 0;
+}
+
+#content {
+	padding: 1.5em;
+}
+
+h1, h2 {
+	color: #125EAE;
+}
+
+h1 {
+	font-size: 150%;
+	margin: 0;
+}
+
+h2 {
+	font-size: 130%;
+}
+
+.section-heading {
+	margin-top: 1.5em;
+	padding-top: 1.5em;
+	border-top: 1px solid silver;
+}
+
+a {
+	color: #328ADC;
+}
+
+a:visited {
+	color: #125EAE;
+}
+
+a:hover {
+	color: #D32B2B;
 }

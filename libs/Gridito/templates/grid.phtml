@@ -76,13 +76,13 @@
         {block paginator}
         {var $paginator = $control->getPaginator()}
         <div class="gridito-paginator" n:if="$paginator->pageCount > 1">
-            <a n:href="changePage! page => $paginator->page - 1" n:if="!$paginator->isFirst()" n:class="gridito-button, $control->getAjaxClass()">Předchozí</a>
+            <a n:href="changePage! page => $paginator->page - 1" n:if="!$paginator->isFirst()" n:class="gridito-button, $control->getAjaxClass()">Previous</a>
 
             {for $i = 1; $i <= $paginator->pageCount; $i++}
             <a n:href="changePage! page => $i" n:class="gridito-button, $control->getAjaxClass(), $paginator->page === $i ? disabled">{$i}</a>
             {/for}
 
-            <a n:href="changePage! page => $paginator->page + 1" n:if="!$paginator->isLast()" n:class="gridito-button, $control->getAjaxClass()">Další</a>
+            <a n:href="changePage! page => $paginator->page + 1" n:if="!$paginator->isLast()" n:class="gridito-button, $control->getAjaxClass()">Next</a>
         </div>
         {/block}
 

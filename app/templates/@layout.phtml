@@ -27,8 +27,26 @@
 </head>
 
 <body>
+	<div id="header">
+		<h1>{ifCurrent Homepage:}Gridito examples{else}<a n:href="Homepage:">Gridito examples</a>{/if}</h1>
+		<p>Datagrid for <a href="http://nette.org/">Nette Framework</a></p>
+	</div>
+	
 	{foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
 
+	<div id="content">
 	{include #content}
+
+	{ifCurrent Homepage:}{else}
+	<h2 class="section-heading">Source code</h2>
+	<ul>
+		{block code}
+		<li><a href="http://github.com/janmarek/Gridito/blob/master/app/presenters/{$control->getName()}Presenter.php">Presenter</a></li>
+		<li><a href="http://github.com/janmarek/Gridito/blob/master/app/templates/{$control->getName()}/default.phtml">View template</a></li>
+		{/block}
+	</ul>
+	<p class="section-heading"><a n:href="Homepage:">Back</a></p>
+	{/if}
+	</div>
 </body>
 </html>

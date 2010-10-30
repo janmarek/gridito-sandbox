@@ -2,7 +2,7 @@
 
 {control $filters begin}
 <fieldset>
-    <legend>Filtry</legend>
+    <legend>Filters</legend>
     <p>
         {$filters["search"]->label} {$filters["search"]->control}
         {$filters["activeOnly"]->control} {$filters["activeOnly"]->label}
@@ -13,4 +13,9 @@
 
 {control grid}
 
-<p><a n:href="Homepage:">Zpět</a></p>
+{/block}
+
+{block code}
+{include #parent}
+<li><a href="http://github.com/janmarek/Gridito/blob/master/app/models/UsersGriditoDibiModel.php">Gridito model</a></li>
+{/block}

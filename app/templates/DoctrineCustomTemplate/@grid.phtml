@@ -5,7 +5,7 @@
 
 
 <fieldset>
-<legend>Seřadit podle</legend>
+<legend>Order by</legend>
 
 <p>
 {foreach $control['columns']->getComponents() as $column}
@@ -25,7 +25,7 @@
 <div n:foreach="$control->getModel() as $item">
 	<h2>{$item->name} {$item->surname} (#{$item->id})</h2>
 
-	<p>E-mail: <a href="mailto:{$item->mail}">{$item->mail}</a>, aktivní: {=$item->active ? "ano" : "ne"}</p>
+	<p>E-mail: <a href="mailto:{$item->mail}">{$item->mail}</a>, active: {=$item->active ? "ano" : "ne"}</p>
 
 	<p n:if="$control->hasActions()" n:inner-foreach="$control['actions']->getComponents() as $button">
 		{control $button $item}

@@ -3,12 +3,12 @@
 use Nette\Application\AppForm;
 
 /**
- * Dibi datagrid presenter
+ * Dibi datagrid with filters example presenter
  *
  * @author Jan Marek
  * @license MIT
  */
-class DibiPresenter extends BasePresenter
+class DibiFiltersPresenter extends BasePresenter
 {
 	/**
 	 * @var bool
@@ -51,32 +51,20 @@ class DibiPresenter extends BasePresenter
 
 		// columns
 		$grid->addColumn("id", "ID")->setSortable(true);
-		$grid->addColumn("username", "Uživatelské jméno")->setSortable(true);
-		$grid->addColumn("name", "Jméno")->setSortable(true);
-		$grid->addColumn("surname", "Příjmení")->setSortable(true);
+		$grid->addColumn("username", "Username")->setSortable(true);
+		$grid->addColumn("name", "Name")->setSortable(true);
+		$grid->addColumn("surname", "Surname")->setSortable(true);
 		$grid->addColumn("mail", "E-mail", array(
 			"renderer" => function ($row) {
 				echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 			},
 			"sortable" => true,
 		));
-		$grid->addColumn("active", "Aktivní", array(
+		$grid->addColumn("active", "Active", array(
 			"renderer" => function ($row) {
 				Gridito\Column::renderBoolean($row->active);
 			},
 			"sortable" => true,
-		));
-
-		// buttons
-		$grid->addButton("button", "Tlačítko", array(
-			"icon" => "ui-icon-plusthick",
-			"confirmationQuestion" => function ($row) {
-				return "Opravdu stisknout u uživatele $row->name $row->surname?";
-			},
-			"handler" => function ($row) use ($grid) {
-				$grid->flashMessage("Stisknuto tlačítko na řádku $row->name $row->surname");
-				$grid->redirect("this");
-			}
 		));
 	}
 
@@ -85,11 +73,11 @@ class DibiPresenter extends BasePresenter
 	protected function createComponentFilters($name)
 	{
 		$form = new AppForm($this, $name);
-		$form->addText("search", "Hledaný výraz")
+		$form->addText("search", "Search by")
 			->setDefaultValue($this->getParam("search", ""));
-		$form->addCheckbox("activeOnly", "Pouze aktivní uživatelé")
+		$form->addCheckbox("activeOnly", "Active users only")
 			->setDefaultValue($this->getParam("activeOnly"));
-		$form->addSubmit("s", "Filtrovat");
+		$form->addSubmit("s", "Filter");
 		$form->onSubmit[] = array($this, "filters_submit");
 	}
 

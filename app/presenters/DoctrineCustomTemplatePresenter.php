@@ -4,6 +4,7 @@
  * Doctrine custom template
  *
  * @author Jan Marek
+ * @license MIT
  */
 class DoctrineCustomTemplatePresenter extends BasePresenter
 {
@@ -11,27 +12,25 @@ class DoctrineCustomTemplatePresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		$qb = Nette\Environment::getService("Doctrine\ORM\EntityManager")->getRepository("Model\User")->createQueryBuilder("u");
-		$grid->setModel(new Gridito\DoctrineQueryBuilderModel($qb));
+		$em = Nette\Environment::getService("Doctrine\ORM\EntityManager");
+		$model = new Model\UsersGriditoDoctrineModel($em);
+		$grid->setModel($model);
 
 		// columns
 		$grid->addColumn("id", "ID")->setSortable(true);
-		$grid->addColumn("username", "Uživatelské jméno")->setSortable(true);
-		$grid->addColumn("name", "Jméno")->setSortable(true);
-		$grid->addColumn("surname", "Příjmení")->setSortable(true);
+		$grid->addColumn("username", "Username")->setSortable(true);
+		$grid->addColumn("name", "Name")->setSortable(true);
+		$grid->addColumn("surname", "Surname")->setSortable(true);
 		$grid->addColumn("mail", "E-mail")->setSortable(true);
-		$grid->addColumn("active", "Aktivní")->setSortable(true);
+		$grid->addColumn("active", "Active")->setSortable(true);
 
 		$grid->setItemsPerPage(3);
 
 		// buttons
-		$grid->addButton("button", "Tlačítko", array(
+		$grid->addButton("button", "Button", array(
 			"icon" => "ui-icon-plusthick",
-			"confirmationQuestion" => function ($row) {
-				return "Opravdu stisknout tlačítko u uživatele $row->name $row->surname?";
-			},
 			"handler" => function ($row) use ($grid) {
-				$grid->flashMessage("Stisknuto tlačítko na řádku $row->name $row->surname");
+				$grid->flashMessage("Button $row->name $row->surname pressed.");
 				$grid->redirect("this");
 			}
 		));
