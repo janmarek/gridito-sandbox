@@ -17,6 +17,8 @@ class DibiSimplePresenter extends BasePresenter
 		$db = Nette\Environment::getService("DibiConnection");
 		$grid->setModel(new Gridito\DibiFluentModel($db->select("*")->from("users")));
 
+		$grid->setItemsPerPage(5);
+
 		// columns
 		$grid->addColumn("id", "ID")->setSortable(true);
 		$grid->addColumn("username", "Username")->setSortable(true);
@@ -33,7 +35,7 @@ class DibiSimplePresenter extends BasePresenter
 				Gridito\Column::renderBoolean($row->active);
 			},
 			"sortable" => true,
-		));
+		));		
 	}
 
 }

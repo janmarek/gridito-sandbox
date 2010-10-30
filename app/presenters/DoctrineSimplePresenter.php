@@ -13,8 +13,11 @@ class DoctrineSimplePresenter extends BasePresenter
 		$grid = new Gridito\Grid($this, $name);
 
 		// model
-		$qb = Nette\Environment::getService("Doctrine\ORM\EntityManager")->getRepository("Model\User")->createQueryBuilder("u");
+		$em = Nette\Environment::getService("Doctrine\ORM\EntityManager");
+		$qb = $em->getRepository("Model\User")->createQueryBuilder("u");
 		$grid->setModel(new Gridito\DoctrineQueryBuilderModel($qb));
+
+		$grid->setItemsPerPage(5);
 
 		// columns
 		$grid->addColumn("id", "ID")->setSortable(true);

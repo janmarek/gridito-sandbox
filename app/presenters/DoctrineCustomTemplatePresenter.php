@@ -24,7 +24,7 @@ class DoctrineCustomTemplatePresenter extends BasePresenter
 		$grid->addColumn("mail", "E-mail")->setSortable(true);
 		$grid->addColumn("active", "Active")->setSortable(true);
 
-		$grid->setItemsPerPage(3);
+		$grid->setItemsPerPage(5);
 
 		// buttons
 		$grid->addButton("button", "Button", array(

@@ -18,7 +18,7 @@ class UsersGriditoDibiModel extends \Gridito\DibiFluentModel
 
 	public function filterActiveOnly()
 	{
-		$this->fluent->where("active = %b", $activeOnly);
+		$this->fluent->where("active = 1");
 	}
 
 
