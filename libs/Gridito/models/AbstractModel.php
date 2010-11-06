@@ -108,6 +108,13 @@ abstract class AbstractModel implements IModel
 
 
 
+	public function getItemsByUniqueIds(array $uniqueIds)
+	{
+		return array_map(array($this, "getItemByUniqueId"), $uniqueIds);
+	}
+
+
+
 	public function count()
 	{
 		if ($this->count === null) {

@@ -16,6 +16,8 @@ interface IModel extends \IteratorAggregate, \Countable
 	public function getUniqueId($item);
 	
 	public function getItemByUniqueId($uniqueId);
+
+	public function getItemsByUniqueIds(array $uniqueIds);
 	
 	public function getItems();
 
