@@ -18,5 +18,10 @@ use Nette\Application\Presenter;
  */
 abstract class BasePresenter extends Presenter
 {
-
+	protected function afterRender()
+	{
+		if (!$this->getSession()->isStarted()) {
+			$this->getSession()->start();
+		}
+	}
 }
