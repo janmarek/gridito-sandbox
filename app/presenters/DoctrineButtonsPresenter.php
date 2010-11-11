@@ -62,6 +62,9 @@ class DoctrineButtonsPresenter extends BasePresenter
 					return null;
 				}
 			},
+			"visible" => function ($user) {
+				return !$user->isActive();
+			},
 		));
 
 		$grid->addWindowButton("detail", "Detail", array(

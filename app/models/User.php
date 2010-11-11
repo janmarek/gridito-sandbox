@@ -139,7 +139,7 @@ class User extends \Nette\Object
 
 
 
-	public function getActive()
+	public function isActive()
 	{
 		return $this->active;
 	}
