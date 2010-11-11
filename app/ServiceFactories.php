@@ -7,7 +7,7 @@
  */
 class ServiceFactories
 {
-	public function createDibiConnection()
+	public static function createDibiConnection()
 	{
 		return new DibiConnection(array(
 			"driver" => "sqlite3",
@@ -17,7 +17,7 @@ class ServiceFactories
 
 
 	
-	public function createEntityManager()
+	public static function createEntityManager()
 	{
 		$config = new Doctrine\ORM\Configuration;
 

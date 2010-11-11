@@ -9,16 +9,26 @@
 	<title>Gridito example</title>
 
 	<!-- jQuery, jQuery UI & livequery -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" type="text/css">
 
 	<!-- Gridito -->
 	<link rel="stylesheet" href="{$basePath}/css/gridito.css" type="text/css">
+	<script type="text/javascript" src="{$basePath}/js/jquery.nette.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery.livequery.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/jquery.ui.gridito.js"></script>
+
 	<script type="text/javascript">
-	$(function () {
-		$("div.gridito").gridito();
+	// gridito init
+	$("div.gridito").livequery(function () {
+		$(this).gridito();
+	});
+
+	// nette ajax init
+	$("a.ajax").live("click", function (event) {
+		event.preventDefault();
+		$.get(this.href);
 	});
 	</script>
 
@@ -28,7 +38,7 @@
 
 <body>
 	<div id="header">
-		<h1>{ifCurrent Homepage:}Gridito examples{else}<a n:href="Homepage:">Gridito examples</a>{/if}</h1>
+		<h1>{ifCurrent Homepage:}Gridito examples{else}<a n:href="Homepage:">Gridito examples</a>{/ifCurrent}</h1>
 		<p>Datagrid for <a href="http://nette.org/">Nette Framework</a></p>
 	</div>
 	
@@ -46,7 +56,7 @@
 		{/block}
 	</ul>
 	<p class="section-heading"><a n:href="Homepage:">Back</a></p>
-	{/if}
+	{/ifCurrent}
 	</div>
 </body>
 </html>
