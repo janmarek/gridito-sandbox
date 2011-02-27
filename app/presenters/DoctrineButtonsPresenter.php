@@ -48,6 +48,19 @@ class DoctrineButtonsPresenter extends BasePresenter
 			"icon" => "ui-icon-home",
 		));
 
+		$grid->addWindowButton("detail", "Detail", array(
+			"handler" => function ($user) {
+				echo "<p><strong>$user->name $user->surname</strong></p>";
+				echo "<table>";
+				echo "<tr><th>ID</th><td>$user->id</td></tr>";
+				echo "<tr><th>Username</th><td>$user->username</td></tr>";
+				echo "<tr><th>E-mail</th><td>$user->mail</td></tr>";
+				echo "<tr><th>Active</th><td>" . ($user->active ? "yes" : "no") . "</td></tr>";
+				echo "</table>";
+			},
+			"icon" => "ui-icon-search",
+		));
+
 		// action buttons
 		$grid->addButton("delete", "Delete", array(
 			"handler" => function ($user) use ($grid) {
@@ -62,22 +75,10 @@ class DoctrineButtonsPresenter extends BasePresenter
 					return null;
 				}
 			},
+			"showText" => false,
 			"visible" => function ($user) {
 				return !$user->isActive();
 			},
-		));
-
-		$grid->addWindowButton("detail", "Detail", array(
-			"handler" => function ($user) {
-				echo "<p><strong>$user->name $user->surname</strong></p>";
-				echo "<table>";
-				echo "<tr><th>ID</th><td>$user->id</td></tr>";
-				echo "<tr><th>Username</th><td>$user->username</td></tr>";
-				echo "<tr><th>E-mail</th><td>$user->mail</td></tr>";
-				echo "<tr><th>Active</th><td>" . ($user->active ? "yes" : "no") . "</td></tr>";
-				echo "</table>";
-			},
-			"icon" => "ui-icon-search",
 		));
 	}
 
