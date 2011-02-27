@@ -27,6 +27,9 @@ abstract class BaseButton extends \Nette\Application\PresenterComponent
 	/** @var string|callback */
 	private $link = null;
 	
+	/** @var bool */
+	private $showText = true;
+	
 
 
 	/**
@@ -171,6 +174,29 @@ abstract class BaseButton extends \Nette\Application\PresenterComponent
 		$this->visible = $visible;
 		return $this;
 	}
+	
+	
+	
+	/**
+	 * Show button text
+	 * @return bool
+	 */
+	public function getShowText()
+	{
+		return $this->showText;
+	}
+
+
+
+	/**
+	 * @param bool show text
+	 * @return BaseButton 
+	 */
+	public function setShowText($showText)
+	{
+		$this->showText = $showText;
+		return $this;
+	}
 
 
 	
@@ -216,7 +242,7 @@ abstract class BaseButton extends \Nette\Application\PresenterComponent
 		return Html::el("a")
 			->href($this->getLink($row))
 			->data("gridito-icon", $this->icon)
-			->class(array("gridito-button"))
+			->class(array("gridito-button", $this->showText ? null : "gridito-hide-text"))
 			->setText($this->label);
 	}
 
