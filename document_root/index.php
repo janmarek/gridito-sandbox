@@ -1,6 +1,5 @@
 <?php
 
-define('SITE', '');
 define('WWW_DIR', __DIR__);
 define('APP_DIR', WWW_DIR . '/../app');
 define('LIBS_DIR', WWW_DIR . '/../libs');

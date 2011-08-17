@@ -1,0 +1,10 @@
+Disallow: dibi/tests
+Disallow: dibi/examples
+
+Disallow: nette/tests
+
+Disallow: doctrine/tests
+Disallow: doctrine/lib/vendor/doctrine-common/tests
+Disallow: doctrine/lib/vendor/doctrine-dbal/lib/vendor
+Disallow: doctrine/lib/vendor/doctrine-dbal/tests
+Disallow: doctrine/lib/vendor/Symfony

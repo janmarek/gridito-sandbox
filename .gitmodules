@@ -1,0 +1,12 @@
+[submodule "libs/gridito"]
+	path = libs/gridito
+	url = git@github.com:janmarek/gridito.git
+[submodule "libs/nette"]
+	path = libs/nette
+	url = git@github.com:nette/nette.git
+[submodule "libs/dibi"]
+	path = libs/dibi
+	url = git@github.com:dg/dibi.git
+[submodule "libs/doctrine"]
+	path = libs/doctrine
+	url = https://github.com/doctrine/doctrine2

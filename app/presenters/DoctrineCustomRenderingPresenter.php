@@ -12,7 +12,7 @@ class DoctrineCustomRenderingPresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		$em = Nette\Environment::getService("Doctrine\ORM\EntityManager");
+		$em = $this->context->getService("Doctrine\ORM\EntityManager");
 		$model = new Model\UsersGriditoDoctrineModel($em);
 		$grid->setModel($model);
 
@@ -30,7 +30,7 @@ class DoctrineCustomRenderingPresenter extends BasePresenter
 		$grid->addColumn("surname", "Surname")->setSortable(true);
 		$grid->addColumn("mail", "E-mail", array(
 			"renderer" => function ($row) {
-				echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
+				echo Nette\Utils\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 			},
 			"sortable" => true,
 		));

@@ -1,7 +1,5 @@
 <?php
 
-use Nette\Application\AppForm;
-
 /**
  * Dibi datagrid presenter
  *
@@ -14,7 +12,7 @@ class DibiSimplePresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		$db = Nette\Environment::getService("DibiConnection");
+		$db = $this->context->DibiConnection;
 		$grid->setModel(new Gridito\DibiFluentModel($db->select("*")->from("users")));
 
 		$grid->setItemsPerPage(5);
@@ -26,7 +24,7 @@ class DibiSimplePresenter extends BasePresenter
 		$grid->addColumn("surname", "Surname")->setSortable(true);
 		$grid->addColumn("mail", "E-mail", array(
 			"renderer" => function ($row) {
-				echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
+				echo Nette\Utils\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 			},
 			"sortable" => true,
 		));

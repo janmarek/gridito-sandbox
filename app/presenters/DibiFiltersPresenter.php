@@ -1,6 +1,6 @@
 <?php
 
-use Nette\Application\AppForm;
+use Nette\Application\UI\Form;
 
 /**
  * Dibi datagrid with filters example presenter
@@ -35,7 +35,7 @@ class DibiFiltersPresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		$db = Nette\Environment::getService("DibiConnection");
+		$db = $this->context->DibiConnection;
 		$model = new Model\UsersGriditoDibiModel($db);
 
 		if ($this->getParam("activeOnly")) {
@@ -56,7 +56,7 @@ class DibiFiltersPresenter extends BasePresenter
 		$grid->addColumn("surname", "Surname")->setSortable(true);
 		$grid->addColumn("mail", "E-mail", array(
 			"renderer" => function ($row) {
-				echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
+				echo Nette\Utils\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 			},
 			"sortable" => true,
 		));
@@ -72,7 +72,7 @@ class DibiFiltersPresenter extends BasePresenter
 
 	protected function createComponentFilters($name)
 	{
-		$form = new AppForm($this, $name);
+		$form = new Form($this, $name);
 		$form->addText("search", "Search by")
 			->setDefaultValue($this->getParam("search", ""));
 		$form->addCheckbox("activeOnly", "Active users only")
@@ -85,7 +85,7 @@ class DibiFiltersPresenter extends BasePresenter
 
 	public function filters_submit($form)
 	{
-		$this->redirect("default", $form->getValues());
+		$this->redirect("default", (array) $form->getValues());
 	}
 
 }

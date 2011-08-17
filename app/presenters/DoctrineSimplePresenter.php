@@ -13,7 +13,7 @@ class DoctrineSimplePresenter extends BasePresenter
 		$grid = new Gridito\Grid($this, $name);
 
 		// model
-		$em = Nette\Environment::getService("Doctrine\ORM\EntityManager");
+		$em = $this->context->getService("Doctrine\ORM\EntityManager");
 		$qb = $em->getRepository("Model\User")->createQueryBuilder("u");
 		$grid->setModel(new Gridito\DoctrineQueryBuilderModel($qb));
 
@@ -27,7 +27,7 @@ class DoctrineSimplePresenter extends BasePresenter
 		$grid->addColumn("mail", "E-mail", array(
 			"sortable" => true,
 			"renderer" => function ($row) {
-				echo Nette\Web\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
+				echo Nette\Utils\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
 			}
 		));
 		$grid->addColumn("active", "Active")->setSortable(true);

@@ -8,5 +8,5 @@
  */
 class HomepagePresenter extends BasePresenter
 {
-	
+
 }

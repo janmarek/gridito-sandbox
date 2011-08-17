@@ -12,7 +12,7 @@ class DoctrineCustomTemplatePresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		$em = Nette\Environment::getService("Doctrine\ORM\EntityManager");
+		$em = $this->context->getService("Doctrine\ORM\EntityManager");
 		$model = new Model\UsersGriditoDoctrineModel($em);
 		$grid->setModel($model);
 
