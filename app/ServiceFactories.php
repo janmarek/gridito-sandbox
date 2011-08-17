@@ -16,7 +16,7 @@ class ServiceFactories
 	}
 
 
-	
+
 	public static function createEntityManager()
 	{
 		$config = new Doctrine\ORM\Configuration;
@@ -37,6 +37,20 @@ class ServiceFactories
 			"driver" => "pdo_sqlite",
 			"path" => APP_DIR . "/models/users.s3db",
 		), $config);
+	}
+
+
+	public static function createDoctrineUsersModel($container)
+	{
+		$em = $container->entityManager;
+		$qb = $em->getRepository('Model\User')->createQueryBuilder('u');
+		/* @var $qb \Doctrine\ORM\QueryBuilder */
+		$qb->leftJoin('u.credentials', 'c');
+		$qb->addSelect('c');
+		$model = new Gridito\DoctrineQueryBuilderModel($qb);
+		$model->addColumnAlias('credentials', 'c');
+
+		return $model;
 	}
 
 }

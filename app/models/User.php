@@ -12,8 +12,6 @@ namespace Model;
  */
 class User extends \Nette\Object
 {
-	// <editor-fold defaultstate="collapsed" desc="variables">
-
 	/**
 	 * @var int
 	 * @Id
@@ -21,18 +19,6 @@ class User extends \Nette\Object
 	 * @GeneratedValue
 	 */
 	private $id;
-
-	/**
-	 * @var string
-	 * @Column(unique=true)
-	 */
-	private $username;
-
-	/**
-	 * @var string
-	 * @Column
-	 */
-	private $password;
 
 	/**
 	 * @var string
@@ -51,48 +37,24 @@ class User extends \Nette\Object
 	 * @Column(unique=true)
 	 */
 	private $mail;
-	
+
 	/**
 	 * @var bool
 	 * @Column(type="boolean")
 	 */
 	private $active;
 
-	// </editor-fold>
+	/**
+	 * @var \Model\Credentials
+	 * @OneToOne(targetEntity="Credentials")
+	 */
+	private $credentials;
 
-	// <editor-fold defaultstate="collapsed" desc="getters & setters">
+
 
 	public function getId()
 	{
 		return $this->id;
-	}
-
-
-
-	public function getUsername()
-	{
-		return $this->username;
-	}
-
-
-
-	public function setUsername($username)
-	{
-		$this->username = $username;
-	}
-
-
-
-	public function getPassword()
-	{
-		return $this->password;
-	}
-
-
-
-	public function setPassword($password)
-	{
-		$this->password = $password;
 	}
 
 
@@ -151,5 +113,11 @@ class User extends \Nette\Object
 		$this->active = $active;
 	}
 
-	// </editor-fold>
+
+
+	public function getCredentials()
+	{
+		return $this->credentials;
+	}
+
 }

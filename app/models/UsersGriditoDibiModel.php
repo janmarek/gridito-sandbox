@@ -27,8 +27,8 @@ class UsersGriditoDibiModel extends \Gridito\DibiFluentModel
 	{
 		$searchString = "%$search%";
 		$this->fluent->where(
-			"(username like %s or name like %s or surname like %s or mail like %s)",
-			$searchString, $searchString, $searchString, $searchString
+			"(name like %s or surname like %s or mail like %s)",
+			$searchString, $searchString, $searchString
 		);
 	}
 

@@ -12,12 +12,15 @@ common:
 		# default_charset: "UTF-8"
 
 	services:
-		Doctrine\ORM\EntityManager: 
+		entityManager:
 			factory: ServiceFactories::createEntityManager
-			
-		DibiConnection:
+
+		dibiConnection:
 			factory: ServiceFactories::createDibiConnection
-			
+
+		doctrineUsersModel:
+			factory: ServiceFactories::createDoctrineUsersModel
+
 		robotLoader:
 			run: true
 

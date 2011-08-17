@@ -13,24 +13,22 @@ class DoctrineSimplePresenter extends BasePresenter
 		$grid = new Gridito\Grid($this, $name);
 
 		// model
-		$em = $this->context->getService("Doctrine\ORM\EntityManager");
-		$qb = $em->getRepository("Model\User")->createQueryBuilder("u");
-		$grid->setModel(new Gridito\DoctrineQueryBuilderModel($qb));
+		$grid->setModel($this->context->doctrineUsersModel);
 
 		$grid->setItemsPerPage(5);
 
 		// columns
-		$grid->addColumn("id", "ID")->setSortable(true);
-		$grid->addColumn("username", "Username")->setSortable(true);
-		$grid->addColumn("name", "Name")->setSortable(true);
-		$grid->addColumn("surname", "Surname")->setSortable(true);
-		$grid->addColumn("mail", "E-mail", array(
-			"sortable" => true,
-			"renderer" => function ($row) {
-				echo Nette\Utils\Html::el("a")->href("mailto:$row->mail")->setText($row->mail);
+		$grid->addColumn('id', 'ID')->setSortable(true);
+		$grid->addColumn('c.username', 'Username')->setSortable(true);
+		$grid->addColumn('name', 'Name')->setSortable(true);
+		$grid->addColumn('surname', 'Surname')->setSortable(true);
+		$grid->addColumn('mail', 'E-mail', array(
+			'sortable' => true,
+			'renderer' => function ($row) {
+				echo Nette\Utils\Html::el('a')->href("mailto:$row->mail")->setText($row->mail);
 			}
 		));
-		$grid->addColumn("active", "Active")->setSortable(true);
+		$grid->addColumn('active', 'Active')->setSortable(true);
 	}
 
 }

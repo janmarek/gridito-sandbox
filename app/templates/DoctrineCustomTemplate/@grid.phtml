@@ -22,7 +22,7 @@
 </p>
 </fieldset>
 
-<div n:foreach="$control->getModel() as $item">
+<div n:foreach="$control->getModel()->getItems() as $item">
 	<h2>{$item->name} {$item->surname} (#{$item->id})</h2>
 
 	<p>E-mail: <a href="mailto:{$item->mail}">{$item->mail}</a>, active: {=$item->active ? "yes" : "no"}</p>
