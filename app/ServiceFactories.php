@@ -48,7 +48,6 @@ class ServiceFactories
 		$qb->leftJoin('u.credentials', 'c');
 		$qb->addSelect('c');
 		$model = new Gridito\DoctrineQueryBuilderModel($qb);
-		$model->addColumnAlias('credentials', 'c');
 
 		return $model;
 	}

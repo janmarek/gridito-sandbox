@@ -15,8 +15,8 @@
 		<strong n:tag-if="$column->getSorting()">{$column->getLabel()}</strong>
 
 		<a n:if="$column->getSorting() === null" n:href="sort!, $column->getName(), asc" n:class="gridito-button, $control->getAjaxClass()">vzestupně</a>
-		<a n:if="$column->sorting === 'asc'" n:href="sort!, $column->getName(), desc" n:class="gridito-button, $control->getAjaxClass()">sestupně</a>
-		<a n:if="$column->sorting === 'desc'" n:href="sort!, null, null" n:class="gridito-button, $control->getAjaxClass()">zrušit</a>
+		<a n:if="$column->getSorting() === 'asc'" n:href="sort!, $column->getName(), desc" n:class="gridito-button, $control->getAjaxClass()">sestupně</a>
+		<a n:if="$column->getSorting() === 'desc'" n:href="sort!, null, null" n:class="gridito-button, $control->getAjaxClass()">zrušit</a>
 	{/if}
 {/foreach}
 </p>

@@ -13,13 +13,15 @@ class DoctrineSimplePresenter extends BasePresenter
 		$grid = new Gridito\Grid($this, $name);
 
 		// model
-		$grid->setModel($this->context->doctrineUsersModel);
+        $model = $this->context->doctrineUsersModel;
+        $model->addColumnAliases('username', 'credentials.username', 'c.username');
+		$grid->setModel($model);
 
 		$grid->setItemsPerPage(5);
 
 		// columns
 		$grid->addColumn('id', 'ID')->setSortable(true);
-		$grid->addColumn('c.username', 'Username')->setSortable(true);
+		$grid->addColumn('username', 'Username')->setSortable(true);
 		$grid->addColumn('name', 'Name')->setSortable(true);
 		$grid->addColumn('surname', 'Surname')->setSortable(true);
 		$grid->addColumn('mail', 'E-mail', array(

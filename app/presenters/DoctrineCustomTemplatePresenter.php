@@ -12,7 +12,9 @@ class DoctrineCustomTemplatePresenter extends BasePresenter
 	{
 		$grid = new Gridito\Grid($this, $name);
 
-		$grid->setModel($this->context->doctrineUsersModel);
+        $model = $this->context->doctrineUsersModel;
+        $model->addColumnAliases('username', 'credentials.username', 'c.username');
+		$grid->setModel($model);
 
 		// columns
 		$grid->addColumn('id', 'ID')->setSortable(true);
