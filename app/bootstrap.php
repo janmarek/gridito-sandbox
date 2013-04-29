@@ -2,7 +2,7 @@
 
 use Nette\Diagnostics\Debugger;
 
-require LIBS_DIR . '/Nette/Nette/loader.php';
+require LIBS_DIR . '/nette/Nette/loader.php';
 
 Debugger::enable();
 
