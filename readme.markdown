@@ -6,6 +6,12 @@ Gridito
 
 Datagrid pro Nette a jQuery UI.
 
+Instalace
+---------
+git submodule update --init --recursive
+mkdir temp
+chmod 777 temp
+
 Demo
 ----
 
