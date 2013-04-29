@@ -6,6 +6,10 @@ require LIBS_DIR . '/Nette/Nette/loader.php';
 
 Debugger::enable();
 
+if (!file_exists(TEMP_DIR)) {
+	throw new Exception(sprintf('Temp dir "%s" does not exist', TEMP_DIR));
+}
+
 $configurator = new Nette\Configurator;
 $configurator->loadConfig(__DIR__ . '/config.neon');
 
